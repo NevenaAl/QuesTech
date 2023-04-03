@@ -1,0 +1,172 @@
+Assessment:
+    'title' ':' title=STRING
+    ('description' ':' description=STRING)?
+    AssessmentType
+;
+
+AssessmentType:
+    Quiz | Survey | ScoredSurvey | Poll
+;
+
+Quiz:
+    'type' ':' type='Quiz' 
+    'questions' ':' questions+=QuizQuestion
+    (end=AssessmentEnd?
+    DefaultPointsPerQuestion?
+    DefaultNegativePointsPerQuestion?
+    ('ask' 'for' 'personal' 'info' ':' askForPersonalInfo=BOOL)?
+    QuizPassCriteria?)#
+;
+Survey:
+    'type' ':' type='Survey'
+    'questions' ':' questions+=SurveyQuestion
+    (end=AssessmentEnd)? //da li ima smisla
+;
+
+ScoredSurvey:
+    'type' ':' type='Scored Survey'
+    'questions' ':' questions+=ScoredSurveyQuestion
+    (end=AssessmentEnd)? //da li ima smisla
+    'scoring' ':' scoring+=SurveyScoring
+;
+
+Poll:
+    'type' ':' type='Poll'
+    PollQuestion
+;
+
+SurveyScoring:
+    'range' 'start' ':' rangeStart=INT
+    'range' 'end' ':' rangeEnd=INT
+    'result' ':' result=STRING
+;
+
+QuizPassCriteria:
+    ('percentage' 'required' ':' percentageRequired=INT)?
+    ('number' 'of' 'correct' 'answers' 'required' ':' numOfCorrectAnswersRequired=INT)?
+    ('points' 'required' ':' pointsRequired=INT)?
+;
+
+QuestionText:
+    'text' ':' text=STRING
+;
+
+QuestionPoints:
+    'points' ':' points=INT
+    ('negative' 'points' ':' negativePoints=INT)?
+;
+
+SurveyQuestion:
+    QuestionText
+    'required' ':' required=BOOL? //ili canSkip. u kvizu mi to ne treba, realno se uvek mogu preskociti pitanja 
+    OpenEndedQuestion | SingleChoiceQuestion | MultipleChoiceQuestion | TrueFalseQuestion | NumberQuestion | OpinionScaleQuestion | RatingQuestion
+;
+
+QuizQuestion:
+    QuestionText
+    OpenEndedQuestion | SingleChoiceQuestion | MultipleChoiceQuestion | TrueFalseQuestion | NumberQuestion
+    QuestionPoints?
+;
+
+ScoredSurveyQuestion:
+    QuestionText
+    MultipleChoiceQuestion
+;
+
+OpenEndedQuestion:
+    'type' ':' type='OpenEnded'
+;
+
+TrueFalseQuestion:
+    'type' ':' type='TrueFalse'
+    'correct' 'answer' ':' correctAnswer=BOOL
+    ('subtype' ':' subtype=TrueFalseSubtype)?
+;
+
+TrueFalseSubtype:
+    'yes/no' | 'true/false'
+;
+
+SingleChoiceQuestion:
+    'type' ':' type='SingleChoice'
+    'answers' ':' answers+=Answer
+    //DA LI KROZ GRAMATIKU PROVERITI DA IMA JEDAN TACAN ODG ILI U INTERPR POSLE
+;
+
+MultipleChoiceQuestion:
+    'type' ':' type='MultipleChoice'
+    'answers' ':' answers+=Answer
+    'accept' 'partial' 'answer' ':' acceptPartialAnswer=BOOL? //if question has 5 points, give 2.5 for 1/2 correct 
+;
+
+NumberQuestion:
+    'type' ':' type='Number'
+    'answerS' ':' answerS=Answer //plural or no
+;
+
+OpinionScaleQuestion:
+    'type' ':' type='OpinionScale'
+    RangeScale | CustomScale
+;
+
+RangeScale:
+    'scale' 'start' ':' scaleStart=INT
+    'scale' 'end' ':' scaleEnd=INT
+    ('scale' 'start' 'label' ':' scaleStartLabel=STRING)?
+    ('scale' 'end' 'label' ':' scaleEndLabel=STRING)?
+;
+
+CustomScale:
+    'scale' 'options' ':' scaleOptions+=ScaleOption
+;
+
+ScaleOption:
+    'value' ':' value=INT
+    'label' ':' label=STRING
+;
+
+RatingQuestion:
+    'type' ':' type='Rating'
+    'max' 'rate' ':' maxRate=INT
+;
+
+Answer:
+    'text' ':' text=STRING
+    ('is' 'correct' ':' isCorrect=BOOL)? //there is no correct answer in survey
+    'points' ':' points=INT //for scored survey
+;
+
+DefaultPointsPerQuestion:
+    'default' 'points' 'per' 'question' ':' defaultPointsPerQuestion=INT
+;
+
+DefaultNegativePointsPerQuestion:
+    'default' 'negative' 'points' 'per' 'question' ':' defaultNegativePointsPerQuestion=INT
+;
+
+PollQuestion:
+    QuestionText
+    'question' ':' question=SingleChoiceQuestion //plural or no
+;
+
+AssessmentEnd:
+    (CompletionTime? CanSkipToEnd?)#
+;
+
+CompletionTime:
+    'completion' 'time' ':' completionTime+=Time
+;
+
+CanSkipToEnd:
+    'can' 'skip' 'to' 'end' ':' canSkipToEnd=BOOL
+;
+
+Time:
+    time=INT unit=TimeUnit
+;
+
+TimeUnit:
+    's' | 'm' | 'h'
+;
+
+//dodati date, ranking pitanje, uslovna pitanja?
