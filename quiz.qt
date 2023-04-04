@@ -1,0 +1,21 @@
+title: "Math Quiz"
+type: Quiz
+questions: [
+    {
+        text: "What is 1+1?"
+        type: SingleChoice
+        answers: [
+            { text: "3" }
+            { text: "5" }
+            { 
+                text: "2"
+                is_correct: true
+            }
+        ]
+    },
+    {
+        text: "What is 2+2?"
+        type: Number
+        answer: 4
+    }
+]
