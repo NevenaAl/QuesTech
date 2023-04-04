@@ -1,6 +1,7 @@
 Assessment:
     'title' ':' title=STRING
     ('description' ':' description=STRING)?
+    ('ask' 'for' 'personal' 'info' ':' askForPersonalInfo=BOOL)?
     AssessmentType
 ;
 
@@ -14,7 +15,6 @@ Quiz:
     (end=AssessmentEnd?
     DefaultPointsPerQuestion?
     DefaultNegativePointsPerQuestion?
-    ('ask' 'for' 'personal' 'info' ':' askForPersonalInfo=BOOL)?
     QuizPassCriteria?)#
 ;
 Survey:
@@ -42,9 +42,9 @@ SurveyScoring:
 ;
 
 QuizPassCriteria:
-    ('percentage' 'required' ':' percentageRequired=INT)?
-    ('number' 'of' 'correct' 'answers' 'required' ':' numOfCorrectAnswersRequired=INT)?
-    ('points' 'required' ':' pointsRequired=INT)?
+    ('percentage' 'required' ':' percentageRequired=INT) |
+    ('number' 'of' 'correct' 'answers' 'required' ':' numOfCorrectAnswersRequired=INT) |
+    ('points' 'required' ':' pointsRequired=INT) //ask da li u gramatici nekako ograniciti da navede ovde procenat a dodeli poene pitanjima
 ;
 
 QuestionText:
@@ -58,7 +58,7 @@ QuestionPoints:
 
 SurveyQuestion:
     QuestionText
-    'required' ':' required=BOOL? //ili canSkip. u kvizu mi to ne treba, realno se uvek mogu preskociti pitanja 
+    ('required' ':' required=BOOL)?
     OpenEndedQuestion | SingleChoiceQuestion | MultipleChoiceQuestion | TrueFalseQuestion | NumberQuestion | OpinionScaleQuestion | RatingQuestion
 ;
 
@@ -101,7 +101,7 @@ MultipleChoiceQuestion:
 
 NumberQuestion:
     'type' ':' type='Number'
-    'answerS' ':' answerS=Answer //plural or no
+    'answer' ':' answers=Answer //plural or no
 ;
 
 OpinionScaleQuestion:
@@ -132,8 +132,8 @@ RatingQuestion:
 
 Answer:
     'text' ':' text=STRING
-    ('is' 'correct' ':' isCorrect=BOOL)? //there is no correct answer in survey
-    'points' ':' points=INT //for scored survey
+    ('is' 'correct' ':' isCorrect=BOOL)? //there is no correct answer in survey //ask da li razdvojiti answers
+    ('points' ':' points=INT)? //for scored survey 
 ;
 
 DefaultPointsPerQuestion:
@@ -146,7 +146,7 @@ DefaultNegativePointsPerQuestion:
 
 PollQuestion:
     QuestionText
-    'question' ':' question=SingleChoiceQuestion //plural or no
+    'question' ':' questions=SingleChoiceQuestion //plural or no
 ;
 
 AssessmentEnd:
