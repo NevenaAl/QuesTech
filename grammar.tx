@@ -10,36 +10,40 @@ AssessmentType:
 ;
 
 Quiz:
-    'type' ':' type='Quiz' 
+    'type' ':' type='quiz' 
     'questions' ':' '[' questions+=QuizQuestion[/;|,|\s*/] ']'
-    (end=AssessmentEnd?
-    ('default_points_per_question' ':' default_points_per_question=INT)?
-    ('default_negative_points_per_question' ':' default_negative_points_per_question=INT)?
+    ((end=AssessmentEnd)?
+    ('default_points_per_question' ':' default_points_per_question=FLOAT)?
+    ('default_negative_points_per_question' ':' default_negative_points_per_question=FLOAT)?
     (pass_criteria=QuizPassCriteria)?)#
 ;
 
 Survey:
-    'type' ':' type='Survey'
+    'type' ':' type='survey'
     'questions' ':' '[' questions+=SurveyQuestion[/;|,|\s*/] ']'
     (end=AssessmentEnd)? 
 ;
 
 ScoredSurvey:
-    'type' ':' type='Scored Survey'
+    'type' ':' type='scored_survey'
     'questions' ':' '[' questions+=ScoredSurveyQuestion[/;|,|\s*/] ']'
     ((end=AssessmentEnd)? 
-    'scoring' ':' scoring+=SurveyScoring)#
+    'scoring' ':' '[' scoring+=SurveyScoring[/;|,|\s*/] ']')#
 ;
 
 Poll:
-    'type' ':' type='Poll'
+    'type' ':' type='poll'
     'question' ':' question=PollQuestion
 ;
 
 SurveyScoring:
-    ('range_start' ':' range_start=INT
+    '{' ('range_start' ':' range_start=INT
     'range_end' ':' range_end=INT
-    'result' ':' result=STRING | INT)#
+    'result' ':' result=ScoredSurveyResultType)# '}'
+;
+
+ScoredSurveyResultType:
+    STRING | FLOAT
 ;
 
 PollQuestion:
@@ -49,7 +53,7 @@ PollQuestion:
 
 SurveyQuestion:
     '{' ('text' ':' text=STRING
-    ('required' ':' required=BOOL)?
+    (required?='required')?
     question_details=SurveyQuestionType)# '}'
 ;
 
@@ -61,6 +65,7 @@ QuizQuestion:
 
 ScoredSurveyQuestion:
     '{' ('text' ':' text=STRING
+    (required?='required')?
     question_details=SingleChoiceQuestion)# '}'
 ;
 
@@ -77,23 +82,23 @@ PollQuestionType:
 ;
 
 QuizPassCriteria:
-    ('percentage_required' ':' percentage_required=INT) |
+    ('percentage_required' ':' percentage_required=FLOAT) |
     ('number_of_correct_answers_required' ':' num_of_correct_answers_required=INT) |
-    ('points_required' ':' points_required=INT) //ask da li u gramatici nekako ograniciti da ne navede ovde procenat a dodeli poene pitanjima
+    ('points_required' ':' points_required=FLOAT) //ask da li u gramatici nekako ograniciti da ne navede ovde procenat a dodeli poene pitanjima
 ;
 
 QuestionPoints:
-    'points' ':' positive=INT
-    ('negative_points' ':' negative=INT)?
+    'points' ':' positive=FLOAT
+    ('negative_points' ':' negative=FLOAT)?
 ;
 
 OpenEndedQuestion:
-    'type' ':' type='OpenEnded'
+    'type' ':' type='open_ended'
 ;
 
 TrueFalseQuestion:
-    ('type' ':' type='TrueFalse'
-    ('correct_answer' ':' correct_answer=BOOL)?
+    ('type' ':' type='true_false'
+    ('correct_answer' ':' correct_answer=BOOL)? //ask: optional at survey
     ('subtype' ':' subtype=TrueFalseSubtype)?)#
 ;
 
@@ -102,24 +107,24 @@ TrueFalseSubtype:
 ;
 
 SingleChoiceQuestion:
-    ('type' ':' type='SingleChoice'
+    ('type' ':' type='single_choice'
     'answers' ':' '[' answers+=Answer[/;|,|\s*/] ']')#
     //ask: should we check if there is only one correct answer here
 ;
 
 MultipleChoiceQuestion:
-    ('type' ':' type='MultipleChoice'
+    ('type' ':' type='multiple_choice'
     'answers' ':' '[' answers+=Answer[/;|,|\s*/] ']'
-    'accept_partial_answer' ':' accept_partial_answer=BOOL?)# //if question has 5 points, give 2.5 for 1/2 correct 
+    accept_partial_answer?='accept_partial_answer')# //if question has 5 points, give 2.5 for 1/2 correct 
 ;
 
 NumberQuestion:
-    ('type' ':' type='Number'
-    'answer' ':' answer=INT)# 
+    ('type' ':' type='number'
+    ('answer' ':' answer=FLOAT)?)# 
 ;
 
 OpinionScaleQuestion:
-    ('type' ':' type='OpinionScale'
+    ('type' ':' type='opinion_scale'
     scale=ScaleType)#
 ;
 
@@ -144,29 +149,35 @@ ScaleOption:
 ;
 
 RatingQuestion:
-    ('type' ':' type='Rating'
+    ('type' ':' type='rating'
     'max_rate' ':' max_rate=INT)#
 ;
 
 Answer:
     '{' ('text' ':' text=STRING
-    ('is_correct' ':' is_correct=BOOL | 'points' ':' points=INT)? )# '}'
+    (is_correct="is_correct" | 'points' ':' points=FLOAT)? )# '}'
     //there is no correct answer in survey and poll
     //scored survey has points for every answer
     //ask: da li razdvojiti answers
 ;
 
 AssessmentEnd:
-    (('completion_time' ':' completion_time+=Time)?
-    ('can_skip_to_end' ':' can_skip_to_end=BOOL)?)#
+    (('completion_time' ':' completion_time=Time)?
+    can_skip_to_end?="can_skip_to_end")#
+;
+
+TimeHours:
+    hours=INT 'h'
+;
+
+TimeMinutes:
+    minutes=INT 'm'
+;
+
+TimeSeconds:
+    seconds=INT 's'
 ;
 
 Time:
-    time=INT unit=TimeUnit
+   (TimeHours TimeMinutes TimeSeconds) | (TimeHours TimeMinutes) | (TimeHours TimeSeconds) | (TimeMinutes TimeSeconds) | TimeHours | TimeMinutes | TimeSeconds
 ;
-
-TimeUnit:
-    's' | 'm' | 'h'
-;
-
-//dodati date, ranking pitanje, uslovna pitanja?

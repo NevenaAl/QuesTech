@@ -14,7 +14,7 @@ class Assessment():
 
 
 @click.command()
-@click.option('--assessment_file', default="quiz.qt", help="Full or relative path to the assessment file")
+@click.option('--assessment_file', default="scored_survey.qt", help="Full or relative path to the assessment file")
 def main(assessment_file):
     this_folder = dirname(__file__)
     assessment_mm = metamodel_from_file(join(this_folder, 'grammar.tx'))

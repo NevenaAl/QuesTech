@@ -13,6 +13,8 @@ e.g.
             <li><b>Linux:</b>&emsp;&emsp;source .\venv\bin\activate</li>
         </ul>
     </li>
+    <li>Run application with "python main.py" to use the default assessment file = quiz.qt</li>
+    <li>To run other assessment, run with "python main.py assessment_file=[path-to-some-other-assessment-file]"</li>
 </ol>
 Installation
 <ol>
@@ -26,8 +28,3 @@ Installation
   </li>
 </ol>
 <br/>
-Running
-<ol>
-    <li>Run application with "python main.py" to use the default assessment file = quiz.qt</li>
-    <li>To run other assessment, run with "python main.py assessment_file=[path-to-some-other-assessment-file]"</li>
-</ol>

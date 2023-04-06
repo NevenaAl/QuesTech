@@ -1,5 +1,5 @@
 title: "Sallary poll"
-type: Poll
+type: poll
 question:
     text: "Should salary be in job description?"
     answers: [
@@ -7,4 +7,4 @@ question:
         { text: "No" }
         { text: "Maybe" }
         ]
-    type: SingleChoice
+    type: single_choice

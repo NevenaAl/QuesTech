@@ -1,0 +1,53 @@
+title: "Employee Survey"
+type: survey
+questions: [
+    {
+        text: "How long have you been working in our company?"
+        type: single_choice
+        answers: [
+            { text: "<1 year" },
+            { text: "1-2 years" },
+            { text: "2-3 years" },
+            { text: "3+ years" }
+        ]
+        required
+    },
+    {
+        text: "What is your ranking?"
+        type: number
+        required
+    },
+    {
+        text: "How would you improve your experience in our company?"
+        type: open_ended
+    },
+    {
+        text: "What factors would have the biggest impact on improving your satisfaction?"
+        type: multiple_choice
+        answers: [
+            { text: "Bigger salary" },
+            { text: "Newer technologies" },
+            { text: "Better communication with colleagues"},
+            { text: "Less work" }
+        ]        
+    },
+    {
+        text: "Would you recommend out company to a friend?"
+        type: true_false
+        subtype: yes/no
+        required
+    },
+    {
+        text: "I am happy at my job. How much do you agree with this statement?"
+        type: opinion_scale
+        scale_start: 0
+        scale_end: 5
+        scale_start_label: "Strongly Agree"
+        scale_end_label: "Strongly Disagree"
+    },
+    {
+        text: "How would you rate this survey?"
+        type: rating
+        max_rate: 5
+    }
+]

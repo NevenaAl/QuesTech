@@ -1,0 +1,76 @@
+title: "Personality Test"
+description: "Find out what is your personality type and how outgoing are you"
+type: scored_survey
+questions: [
+    {
+        text: "Do you like meeting new people?"
+        type: single_choice
+        answers: [
+            { text: "Love it"  points: 5 },
+            { text: "Like it"  points: 4 },
+            { text: "I don't have opinion about it"  points: 3 },
+            { text: "Don't like it"  points: 2 }
+            { text: "Hate it"points: 1 }
+        ]
+        required
+    },
+    {
+        text: "Do you like helping people out?"
+        type: single_choice
+        answers: [
+            { text: "Love it"  points: 5 },
+            { text: "Like it"  points: 4 },
+            { text: "I don't have opinion about it"  points: 3 },
+            { text: "Don't like it"  points: 2 }
+            { text: "Hate it" points: 1 }
+        ]
+        required
+    },
+    {
+        text: "Do you enjoy time with your friends?"
+        type: single_choice
+        answers: [
+            { text: "Love it"  points: 5 },
+            { text: "Like it"  points: 4 },
+            { text: "I don't have opinion about it"  points: 3 },
+            { text: "Don't like it"  points: 2 }
+            { text: "Hate it" points: 1 }
+        ]
+        required
+    },
+    {
+        text: "How long does it take you to calm down when you've been angry?"
+        type: single_choice
+        answers: [
+            { text: "Less than a minute"  points: 5 },
+            { text: "About 5 minutes"  points: 4 },
+            { text: "Around a hour"  points: 3 },
+            { text: "Few hours"  points: 2 }
+            { text: "I think about it all day"  points: 1 }
+        ]
+        required
+    }
+]
+scoring: [
+    {
+        range_start: 0
+        range_end: 5
+        result: "Not friendly and likes to be alone"
+    },
+    {
+        range_start: 5
+        range_end: 10
+        result: "Not friendly but don't mind people's company"
+    },
+    {
+        range_start: 10
+        range_end: 15
+        result: "Friendly"
+    },
+    {
+        range_start: 15
+        range_end: 20
+        result: "Very friendly and outgoing"
+    }
+]
+can_skip_to_end

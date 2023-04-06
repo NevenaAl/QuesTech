@@ -11,113 +11,122 @@
     edge[dir=black,arrowtail=empty]
 
 
-2836678371600[ label="{Assessment|title: STRING\ldescription: STRING\lask_for_personal_info: BOOL\l}"]
+1484176457264[ label="{Assessment|title: STRING\ldescription: STRING\lask_for_personal_info: BOOL\l}"]
 
-2836678369648[ label="{*AssessmentType|}"]
+1484176458240[ label="{*AssessmentType|}"]
 
-2836678359888[ label="{Quiz|type: STRING\ldefault_points_per_question: INT\ldefault_negative_points_per_question: INT\l}"]
+1484176429936[ label="{Quiz|type: STRING\ldefault_points_per_question: FLOAT\ldefault_negative_points_per_question: FLOAT\l}"]
 
-2836678346224[ label="{Survey|type: STRING\l}"]
+1484176428960[ label="{Survey|type: STRING\l}"]
 
-2836678367696[ label="{ScoredSurvey|type: STRING\l}"]
+1484176427984[ label="{ScoredSurvey|type: STRING\l}"]
 
-2836678368672[ label="{Poll|type: STRING\l}"]
+1484176462144[ label="{Poll|type: STRING\l}"]
 
-2836678376480[ label="{SurveyScoring|range_start: INT\lrange_end: INT\lresult: STRING\l}"]
+1484176463120[ label="{SurveyScoring|range_start: INT\lrange_end: INT\lresult: ScoredSurveyResultType\l}"]
 
-2836678378432[ label="{PollQuestion|text: STRING\l}"]
+1484176465072[ label="{PollQuestion|text: STRING\l}"]
 
-2836678380384[ label="{SurveyQuestion|text: STRING\lrequired: BOOL\l}"]
+1484176467024[ label="{SurveyQuestion|text: STRING\lrequired: optional\<BOOL\>\l}"]
 
-2836678382336[ label="{QuizQuestion|text: STRING\l}"]
+1484176468976[ label="{QuizQuestion|text: STRING\l}"]
 
-2836678393072[ label="{ScoredSurveyQuestion|text: STRING\l}"]
+1484176470928[ label="{ScoredSurveyQuestion|text: STRING\lrequired: optional\<BOOL\>\l}"]
 
-2836678389168[ label="{*SurveyQuestionType|}"]
+1484176479712[ label="{*SurveyQuestionType|}"]
 
-2836678395024[ label="{*QuizQuestionType|}"]
+1484176471904[ label="{*QuizQuestionType|}"]
 
-2836678386240[ label="{*PollQuestionType|}"]
+1484176473856[ label="{*PollQuestionType|}"]
 
-2836678397952[ label="{QuizPassCriteria|percentage_required: INT\lnum_of_correct_answers_required: INT\lpoints_required: INT\l}"]
+1484176474832[ label="{QuizPassCriteria|percentage_required: FLOAT\lnum_of_correct_answers_required: INT\lpoints_required: FLOAT\l}"]
 
-2836678388192[ label="{QuestionPoints|positive: INT\lnegative: INT\l}"]
+1484176477760[ label="{QuestionPoints|positive: FLOAT\lnegative: FLOAT\l}"]
 
-2836678391120[ label="{OpenEndedQuestion|type: STRING\l}"]
+1484176481664[ label="{OpenEndedQuestion|type: STRING\l}"]
 
-2836678392096[ label="{TrueFalseQuestion|type: STRING\lcorrect_answer: BOOL\lsubtype: TrueFalseSubtype\l}"]
+1484176483616[ label="{TrueFalseQuestion|type: STRING\lcorrect_answer: BOOL\lsubtype: TrueFalseSubtype\l}"]
 
-2836678396976[ label="{SingleChoiceQuestion|type: STRING\l}"]
+1484176489472[ label="{SingleChoiceQuestion|type: STRING\l}"]
 
-2836678405760[ label="{MultipleChoiceQuestion|type: STRING\laccept_partial_answer: BOOL\l}"]
+1484176485568[ label="{MultipleChoiceQuestion|type: STRING\laccept_partial_answer: optional\<BOOL\>\l}"]
 
-2836678406736[ label="{NumberQuestion|type: STRING\lanswer: INT\l}"]
+1484176592336[ label="{NumberQuestion|type: STRING\lanswer: FLOAT\l}"]
 
-2836678414544[ label="{OpinionScaleQuestion|type: STRING\l}"]
+1484176563056[ label="{OpinionScaleQuestion|type: STRING\l}"]
 
-2836678421376[ label="{*ScaleType|}"]
+1484176574768[ label="{*ScaleType|}"]
 
-2836678427232[ label="{RangeScale|scale_start: INT\lscale_end: INT\lscale_start_label: STRING\lscale_end_label: STRING\l}"]
+1484176562080[ label="{RangeScale|scale_start: INT\lscale_end: INT\lscale_start_label: STRING\lscale_end_label: STRING\l}"]
 
-2836678422352[ label="{CustomScale|}"]
+1484176566960[ label="{CustomScale|}"]
 
-2836678435040[ label="{ScaleOption|value: INT\llabel: STRING\l}"]
+1484176568912[ label="{ScaleOption|value: INT\llabel: STRING\l}"]
 
-2836678407712[ label="{RatingQuestion|type: STRING\lmax_rate: INT\l}"]
+1484176567936[ label="{RatingQuestion|type: STRING\lmax_rate: INT\l}"]
 
-2836678410640[ label="{Answer|text: STRING\lis_correct: BOOL\lpoints: INT\l}"]
+1484176591360[ label="{Answer|text: STRING\lis_correct: STRING\lpoints: FLOAT\l}"]
 
-2836678411616[ label="{AssessmentEnd|can_skip_to_end: BOOL\l}"]
+1484176560128[ label="{AssessmentEnd|can_skip_to_end: optional\<BOOL\>\l}"]
 
-2836678409664[ label="{Time|time: INT\lunit: TimeUnit\l}"]
+1484176565008[ label="{TimeHours|hours: INT\l}"]
+
+1484176576720[ label="{TimeMinutes|minutes: INT\l}"]
+
+1484176561104[ label="{TimeSeconds|seconds: INT\l}"]
+
+1484176603072[ label="{*Time|}"]
 
 
 
-2836678371600 -> 2836678369648[arrowtail=diamond, dir=both, headlabel="assessment_details "]
-2836678369648 -> 2836678359888 [dir=back]
-2836678369648 -> 2836678346224 [dir=back]
-2836678369648 -> 2836678367696 [dir=back]
-2836678369648 -> 2836678368672 [dir=back]
-2836678359888 -> 2836678382336[arrowtail=diamond, dir=both, headlabel="questions 1..*"]
-2836678359888 -> 2836678411616[arrowtail=diamond, dir=both, headlabel="end "]
-2836678359888 -> 2836678397952[arrowtail=diamond, dir=both, headlabel="pass_criteria "]
-2836678346224 -> 2836678380384[arrowtail=diamond, dir=both, headlabel="questions 1..*"]
-2836678346224 -> 2836678411616[arrowtail=diamond, dir=both, headlabel="end "]
-2836678367696 -> 2836678393072[arrowtail=diamond, dir=both, headlabel="questions 1..*"]
-2836678367696 -> 2836678411616[arrowtail=diamond, dir=both, headlabel="end "]
-2836678367696 -> 2836678376480[arrowtail=diamond, dir=both, headlabel="scoring 1..*"]
-2836678368672 -> 2836678378432[arrowtail=diamond, dir=both, headlabel="question "]
-2836678378432 -> 2836678386240[arrowtail=diamond, dir=both, headlabel="question_details "]
-2836678380384 -> 2836678389168[arrowtail=diamond, dir=both, headlabel="question_details "]
-2836678382336 -> 2836678395024[arrowtail=diamond, dir=both, headlabel="question_details "]
-2836678382336 -> 2836678388192[arrowtail=diamond, dir=both, headlabel="questionPoints "]
-2836678393072 -> 2836678396976[arrowtail=diamond, dir=both, headlabel="question_details "]
-2836678389168 -> 2836678391120 [dir=back]
-2836678389168 -> 2836678396976 [dir=back]
-2836678389168 -> 2836678405760 [dir=back]
-2836678389168 -> 2836678392096 [dir=back]
-2836678389168 -> 2836678406736 [dir=back]
-2836678389168 -> 2836678414544 [dir=back]
-2836678389168 -> 2836678407712 [dir=back]
-2836678395024 -> 2836678391120 [dir=back]
-2836678395024 -> 2836678396976 [dir=back]
-2836678395024 -> 2836678405760 [dir=back]
-2836678395024 -> 2836678392096 [dir=back]
-2836678395024 -> 2836678406736 [dir=back]
-2836678386240 -> 2836678396976 [dir=back]
-2836678386240 -> 2836678392096 [dir=back]
-2836678386240 -> 2836678407712 [dir=back]
-2836678386240 -> 2836678414544 [dir=back]
-2836678396976 -> 2836678410640[arrowtail=diamond, dir=both, headlabel="answers 1..*"]
-2836678405760 -> 2836678410640[arrowtail=diamond, dir=both, headlabel="answers 1..*"]
-2836678414544 -> 2836678421376[arrowtail=diamond, dir=both, headlabel="scale "]
-2836678421376 -> 2836678427232 [dir=back]
-2836678421376 -> 2836678422352 [dir=back]
-2836678422352 -> 2836678435040[arrowtail=diamond, dir=both, headlabel="scale_options 1..*"]
-2836678411616 -> 2836678409664[arrowtail=diamond, dir=both, headlabel="completion_time 1..*"]
+1484176457264 -> 1484176458240[arrowtail=diamond, dir=both, headlabel="assessment_details "]
+1484176458240 -> 1484176429936 [dir=back]
+1484176458240 -> 1484176428960 [dir=back]
+1484176458240 -> 1484176427984 [dir=back]
+1484176458240 -> 1484176462144 [dir=back]
+1484176429936 -> 1484176468976[arrowtail=diamond, dir=both, headlabel="questions 1..*"]
+1484176429936 -> 1484176560128[arrowtail=diamond, dir=both, headlabel="end "]
+1484176429936 -> 1484176474832[arrowtail=diamond, dir=both, headlabel="pass_criteria "]
+1484176428960 -> 1484176467024[arrowtail=diamond, dir=both, headlabel="questions 1..*"]
+1484176428960 -> 1484176560128[arrowtail=diamond, dir=both, headlabel="end "]
+1484176427984 -> 1484176470928[arrowtail=diamond, dir=both, headlabel="questions 1..*"]
+1484176427984 -> 1484176560128[arrowtail=diamond, dir=both, headlabel="end "]
+1484176427984 -> 1484176463120[arrowtail=diamond, dir=both, headlabel="scoring 1..*"]
+1484176462144 -> 1484176465072[arrowtail=diamond, dir=both, headlabel="question "]
+1484176465072 -> 1484176473856[arrowtail=diamond, dir=both, headlabel="question_details "]
+1484176467024 -> 1484176479712[arrowtail=diamond, dir=both, headlabel="question_details "]
+1484176468976 -> 1484176471904[arrowtail=diamond, dir=both, headlabel="question_details "]
+1484176468976 -> 1484176477760[arrowtail=diamond, dir=both, headlabel="questionPoints "]
+1484176470928 -> 1484176489472[arrowtail=diamond, dir=both, headlabel="question_details "]
+1484176479712 -> 1484176481664 [dir=back]
+1484176479712 -> 1484176489472 [dir=back]
+1484176479712 -> 1484176485568 [dir=back]
+1484176479712 -> 1484176483616 [dir=back]
+1484176479712 -> 1484176592336 [dir=back]
+1484176479712 -> 1484176563056 [dir=back]
+1484176479712 -> 1484176567936 [dir=back]
+1484176471904 -> 1484176481664 [dir=back]
+1484176471904 -> 1484176489472 [dir=back]
+1484176471904 -> 1484176485568 [dir=back]
+1484176471904 -> 1484176483616 [dir=back]
+1484176471904 -> 1484176592336 [dir=back]
+1484176473856 -> 1484176489472 [dir=back]
+1484176473856 -> 1484176483616 [dir=back]
+1484176473856 -> 1484176567936 [dir=back]
+1484176473856 -> 1484176563056 [dir=back]
+1484176489472 -> 1484176591360[arrowtail=diamond, dir=both, headlabel="answers 1..*"]
+1484176485568 -> 1484176591360[arrowtail=diamond, dir=both, headlabel="answers 1..*"]
+1484176563056 -> 1484176574768[arrowtail=diamond, dir=both, headlabel="scale "]
+1484176574768 -> 1484176562080 [dir=back]
+1484176574768 -> 1484176566960 [dir=back]
+1484176566960 -> 1484176568912[arrowtail=diamond, dir=both, headlabel="scale_options 1..*"]
+1484176560128 -> 1484176603072[arrowtail=diamond, dir=both, headlabel="completion_time "]
+1484176603072 -> 1484176565008 [dir=back]
+1484176603072 -> 1484176576720 [dir=back]
+1484176603072 -> 1484176561104 [dir=back]
 match_rules [ shape=plaintext, label=< <table>
 	<tr>
-		<td><b>TimeUnit</b></td><td>s|m|h</td>
+		<td><b>ScoredSurveyResultType</b></td><td>STRING|FLOAT</td>
 	</tr>
 	<tr>
 		<td><b>TrueFalseSubtype</b></td><td>yes/no|true/false</td>
