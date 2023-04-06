@@ -1,8 +1,8 @@
 Assessment:
     'title' ':' title=STRING
     ('description' ':' description=STRING)?
-    ('ask_for_personal_info' ':' ask_for_personal_info=BOOL)?
-    assessment_details=AssessmentType
+    (ask_for_personal_info?="ask_for_personal_info"
+    assessment_details=AssessmentType)#
 ;
 
 AssessmentType:
@@ -60,7 +60,7 @@ SurveyQuestion:
 QuizQuestion:
     '{' ('text' ':' text=STRING
     question_details=QuizQuestionType
-    (questionPoints=QuestionPoints)?)# '}'  //ask: check if there is no points here and quizpasscore has poinstrequired 
+    (question_points=QuestionPoints)?)# '}'  
 ;
 
 ScoredSurveyQuestion:
@@ -84,7 +84,7 @@ PollQuestionType:
 QuizPassCriteria:
     ('percentage_required' ':' percentage_required=FLOAT) |
     ('number_of_correct_answers_required' ':' num_of_correct_answers_required=INT) |
-    ('points_required' ':' points_required=FLOAT) //ask da li u gramatici nekako ograniciti da ne navede ovde procenat a dodeli poene pitanjima
+    ('points_required' ':' points_required=FLOAT) 
 ;
 
 QuestionPoints:
@@ -98,7 +98,7 @@ OpenEndedQuestion:
 
 TrueFalseQuestion:
     ('type' ':' type='true_false'
-    ('correct_answer' ':' correct_answer=BOOL)? //ask: optional at survey
+    ('correct_answer' ':' correct_answer=BOOL)? 
     ('subtype' ':' subtype=TrueFalseSubtype)?)#
 ;
 
@@ -109,13 +109,12 @@ TrueFalseSubtype:
 SingleChoiceQuestion:
     ('type' ':' type='single_choice'
     'answers' ':' '[' answers+=Answer[/;|,|\s*/] ']')#
-    //ask: should we check if there is only one correct answer here
 ;
 
 MultipleChoiceQuestion:
     ('type' ':' type='multiple_choice'
     'answers' ':' '[' answers+=Answer[/;|,|\s*/] ']'
-    accept_partial_answer?='accept_partial_answer')# //if question has 5 points, give 2.5 for 1/2 correct 
+    accept_partial_answer?='accept_partial_answer')# 
 ;
 
 NumberQuestion:
@@ -156,9 +155,6 @@ RatingQuestion:
 Answer:
     '{' ('text' ':' text=STRING
     (is_correct="is_correct" | 'points' ':' points=FLOAT)? )# '}'
-    //there is no correct answer in survey and poll
-    //scored survey has points for every answer
-    //ask: da li razdvojiti answers
 ;
 
 AssessmentEnd:
