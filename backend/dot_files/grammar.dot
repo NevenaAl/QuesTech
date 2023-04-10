@@ -1,0 +1,137 @@
+
+    digraph textX {
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    node[
+        shape=record,
+        style=filled,
+        fillcolor=aliceblue
+    ]
+    nodesep = 0.3
+    edge[dir=black,arrowtail=empty]
+
+
+2449269213872[ label="{Assessment|title: STRING\ldescription: STRING\lask_for_personal_info: optional\<BOOL\>\l}"]
+
+2449269232416[ label="{*AssessmentType|}"]
+
+2449269233392[ label="{Quiz|type: STRING\ldefault_points_per_question: FLOAT\ldefault_negative_points_per_question: FLOAT\l}"]
+
+2449269205088[ label="{Survey|type: STRING\l}"]
+
+2449269239248[ label="{ScoredSurvey|type: STRING\l}"]
+
+2449269241200[ label="{Poll|type: STRING\l}"]
+
+2449269209968[ label="{SurveyScoring|range_start: INT\lrange_end: INT\lresult: ScoredSurveyResultType\l}"]
+
+2449269245104[ label="{PollQuestion|text: STRING\l}"]
+
+2449269247056[ label="{SurveyQuestion|text: STRING\lrequired: optional\<BOOL\>\l}"]
+
+2449269250960[ label="{QuizQuestion|text: STRING\l}"]
+
+2449269254864[ label="{ScoredSurveyQuestion|text: STRING\lrequired: optional\<BOOL\>\l}"]
+
+2449269264624[ label="{*SurveyQuestionType|}"]
+
+2449269260720[ label="{*QuizQuestionType|}"]
+
+2449269251936[ label="{*PollQuestionType|}"]
+
+2449269262672[ label="{QuizPassCriteria|percentage_required: FLOAT\lnum_of_correct_answers_required: INT\lpoints_required: FLOAT\l}"]
+
+2449269253888[ label="{QuestionPoints|positive: FLOAT\lnegative: FLOAT\l}"]
+
+2449269263648[ label="{OpenEndedQuestion|type: STRING\l}"]
+
+2449269257792[ label="{TrueFalseQuestion|type: STRING\lcorrect_answer: BOOL\lsubtype: TrueFalseSubtype\l}"]
+
+2449269273408[ label="{SingleChoiceQuestion|type: STRING\l}"]
+
+2449269293904[ label="{MultipleChoiceQuestion|type: STRING\laccept_partial_answer: optional\<BOOL\>\l}"]
+
+2449269280240[ label="{NumberQuestion|type: STRING\lanswer: FLOAT\l}"]
+
+2449269271456[ label="{OpinionScaleQuestion|type: STRING\l}"]
+
+2449269290976[ label="{*ScaleType|}"]
+
+2449269291952[ label="{RangeScale|scale_start: INT\lscale_end: INT\lscale_start_label: STRING\lscale_end_label: STRING\l}"]
+
+2449269269504[ label="{CustomScale|}"]
+
+2449269277312[ label="{ScaleOption|value: INT\llabel: STRING\l}"]
+
+2449269292928[ label="{RatingQuestion|type: STRING\lmax_rate: INT\l}"]
+
+2449269279264[ label="{Answer|text: STRING\lis_correct: STRING\lpoints: FLOAT\l}"]
+
+2449269298784[ label="{AssessmentEnd|can_skip_to_end: optional\<BOOL\>\l}"]
+
+2449269266576[ label="{TimeHours|hours: INT\l}"]
+
+2449269270480[ label="{TimeMinutes|minutes: INT\l}"]
+
+2449269283168[ label="{TimeSeconds|seconds: INT\l}"]
+
+2449269286096[ label="{*Time|}"]
+
+
+
+2449269213872 -> 2449269232416[arrowtail=diamond, dir=both, headlabel="assessment_details "]
+2449269232416 -> 2449269233392 [dir=back]
+2449269232416 -> 2449269205088 [dir=back]
+2449269232416 -> 2449269239248 [dir=back]
+2449269232416 -> 2449269241200 [dir=back]
+2449269233392 -> 2449269250960[arrowtail=diamond, dir=both, headlabel="questions 1..*"]
+2449269233392 -> 2449269298784[arrowtail=diamond, dir=both, headlabel="end "]
+2449269233392 -> 2449269262672[arrowtail=diamond, dir=both, headlabel="pass_criteria "]
+2449269205088 -> 2449269247056[arrowtail=diamond, dir=both, headlabel="questions 1..*"]
+2449269205088 -> 2449269298784[arrowtail=diamond, dir=both, headlabel="end "]
+2449269239248 -> 2449269254864[arrowtail=diamond, dir=both, headlabel="questions 1..*"]
+2449269239248 -> 2449269298784[arrowtail=diamond, dir=both, headlabel="end "]
+2449269239248 -> 2449269209968[arrowtail=diamond, dir=both, headlabel="scoring 1..*"]
+2449269241200 -> 2449269245104[arrowtail=diamond, dir=both, headlabel="question "]
+2449269245104 -> 2449269251936[arrowtail=diamond, dir=both, headlabel="question_details "]
+2449269247056 -> 2449269264624[arrowtail=diamond, dir=both, headlabel="question_details "]
+2449269250960 -> 2449269260720[arrowtail=diamond, dir=both, headlabel="question_details "]
+2449269250960 -> 2449269253888[arrowtail=diamond, dir=both, headlabel="question_points "]
+2449269254864 -> 2449269273408[arrowtail=diamond, dir=both, headlabel="question_details "]
+2449269264624 -> 2449269263648 [dir=back]
+2449269264624 -> 2449269273408 [dir=back]
+2449269264624 -> 2449269293904 [dir=back]
+2449269264624 -> 2449269257792 [dir=back]
+2449269264624 -> 2449269280240 [dir=back]
+2449269264624 -> 2449269271456 [dir=back]
+2449269264624 -> 2449269292928 [dir=back]
+2449269260720 -> 2449269263648 [dir=back]
+2449269260720 -> 2449269273408 [dir=back]
+2449269260720 -> 2449269293904 [dir=back]
+2449269260720 -> 2449269257792 [dir=back]
+2449269260720 -> 2449269280240 [dir=back]
+2449269251936 -> 2449269273408 [dir=back]
+2449269251936 -> 2449269257792 [dir=back]
+2449269251936 -> 2449269292928 [dir=back]
+2449269251936 -> 2449269271456 [dir=back]
+2449269273408 -> 2449269279264[arrowtail=diamond, dir=both, headlabel="answers 1..*"]
+2449269293904 -> 2449269279264[arrowtail=diamond, dir=both, headlabel="answers 1..*"]
+2449269271456 -> 2449269290976[arrowtail=diamond, dir=both, headlabel="scale "]
+2449269290976 -> 2449269291952 [dir=back]
+2449269290976 -> 2449269269504 [dir=back]
+2449269269504 -> 2449269277312[arrowtail=diamond, dir=both, headlabel="scale_options 1..*"]
+2449269298784 -> 2449269286096[arrowtail=diamond, dir=both, headlabel="completion_time "]
+2449269286096 -> 2449269266576 [dir=back]
+2449269286096 -> 2449269270480 [dir=back]
+2449269286096 -> 2449269283168 [dir=back]
+match_rules [ shape=plaintext, label=< <table>
+	<tr>
+		<td><b>ScoredSurveyResultType</b></td><td>STRING|FLOAT</td>
+	</tr>
+	<tr>
+		<td><b>TrueFalseSubtype</b></td><td>yes/no|true/false</td>
+	</tr>
+</table> >]
+
+
+}
