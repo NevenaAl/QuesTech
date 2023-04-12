@@ -1,4 +1,6 @@
 from pymaybe import maybe
+
+
 class Answer(object):
     def __init__(self, text: str):
         self.text = text
@@ -36,7 +38,7 @@ class AssessmentDetails(object):
         self.default_points_per_question = None
         self.default_negative_points_per_question = None
         self.completion_time = None
-        self.can_skip_to_end =None
+        self.can_skip_to_end = None
         self.percentage_required = None
         self.num_of_correct_answers_required = None
         self.points_required = None
@@ -48,13 +50,14 @@ class AssessmentDetails(object):
 
 def convert_assessment_details(assessment_details):
     temp = AssessmentDetails(assessment_details.questions)
-    if(assessment_details.type != "poll"):
-        temp.completion_time = parse_completion_time(maybe(assessment_details.end).completion_time)
+    if (assessment_details.type != "poll"):
+        temp.completion_time = parse_completion_time(
+            maybe(assessment_details.end).completion_time)
         temp.can_skip_to_end = maybe(assessment_details.end).can_skip_to_end
-        
+
     if (assessment_details.type == "quiz" and assessment_details.pass_criteria):
-        temp.default_points_per_question= assessment_details.default_points_per_question
-        temp.default_negative_points_per_question=assessment_details.default_negative_points_per_question
+        temp.default_points_per_question = assessment_details.default_points_per_question
+        temp.default_negative_points_per_question = assessment_details.default_negative_points_per_question
         temp.percentage_required = assessment_details.pass_criteria.percentage_required
         temp.num_of_correct_answers_required = assessment_details.pass_criteria.num_of_correct_answers_required
         temp.points_required = assessment_details.pass_criteria.points_required
