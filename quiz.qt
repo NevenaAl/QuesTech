@@ -52,5 +52,5 @@ questions: [
 default_points_per_question: 1
 default_negative_points_per_question: 0.5
 points_required: 3
-completion_time: 1 h 20 s
+completion_time: 7h
 can_skip_to_end

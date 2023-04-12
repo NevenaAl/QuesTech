@@ -29,17 +29,17 @@ def main(assessment_file):
     (graph,) = pydot.graph_from_dot_file(join(dot_folder, 'grammar.dot'))
     graph.write_png(join(dot_folder, 'grammar.png'))
 
-    try:
-        assessment: Assessment = assessment_mm.model_from_file(
+    # try:
+    assessment: Assessment = assessment_mm.model_from_file(
             join(abspath(this_folder), assessment_file))
-        print(assessment)
-    except:
-        try:
-            assessment: Assessment = assessment_mm.model_from_file(
-                assessment_file)
-        except:
-            print("The assessment file path is not valid")
-            return
+    print(assessment)
+    # except:
+    #     try:
+    #         assessment: Assessment = assessment_mm.model_from_file(
+    #             assessment_file)
+    #     except:
+    #         print("The assessment file path is not valid")
+    #         return
 
 
 if __name__ == "__main__":

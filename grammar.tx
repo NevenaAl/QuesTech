@@ -158,19 +158,19 @@ Answer:
 ;
 
 AssessmentEnd:
-    (('completion_time' ':' completion_time=Time)?
+    (('completion_time' ':' /\s*/ completion_time=Time)?
     can_skip_to_end?="can_skip_to_end")#
 ;
 
-TimeHours:
+TimeHours[noskipws]:
     hours=INT 'h'
 ;
 
-TimeMinutes:
+TimeMinutes[noskipws]:
     minutes=INT 'm'
 ;
 
-TimeSeconds:
+TimeSeconds[noskipws]:
     seconds=INT 's'
 ;
 
