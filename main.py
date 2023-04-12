@@ -1,6 +1,6 @@
 from os.path import join, dirname, abspath
 from textx import metamodel_from_file
-from textx.export import metamodel_export, model_export
+from textx.export import metamodel_export
 import os
 import pydot
 import click
@@ -11,12 +11,12 @@ from classes import Assessment, AssessmentDetails, Question
 class AssessmentData():
     def __init__(self, assessment:  Assessment, assessment_mm, assessment_file):
         self.assessment = assessment
-        self.assessment_mm = assessment_mm
+        self.assessment_mm = assessment_mm  
         self.assessment_file = assessment_file
 
 
 @click.command()
-@click.option('--assessment_file', default="quiz.qt", help="Full or relative path to the assessment file")
+@click.option('--assessment_file', default="survey.qt", help="Full or relative path to the assessment file")
 def main(assessment_file):
     this_folder = dirname(__file__)
     assessment_mm = metamodel_from_file(
@@ -26,7 +26,7 @@ def main(assessment_file):
     if not os.path.exists(dot_folder):
         os.mkdir(dot_folder)
     metamodel_export(assessment_mm, join(dot_folder, 'grammar.dot'))
-    (graph,) = pydot.graph_from_dot_file(join(dot_folder, 'grammar.dot'))
+    (graph,) = pydot.graph_from_dot_file(join(dot_folder, 'grammar.dot'))  
     graph.write_png(join(dot_folder, 'grammar.png'))
 
     # try:

@@ -11,7 +11,7 @@ AssessmentType:
 
 Quiz:
     'type' ':' type='quiz' 
-    'questions' ':' '[' questions+=QuizQuestion[/;|,|\s*/] ']'
+    'questions' ':' questions+=QuizQuestion[/\s*/] 
     ((end=AssessmentEnd)?
     ('default_points_per_question' ':' default_points_per_question=FLOAT)?
     ('default_negative_points_per_question' ':' default_negative_points_per_question=FLOAT)?
@@ -20,26 +20,24 @@ Quiz:
 
 Survey:
     'type' ':' type='survey'
-    'questions' ':' '[' questions+=SurveyQuestion[/;|,|\s*/] ']'
+    'questions' ':' questions+=SurveyQuestion[/\s*/] 
     (end=AssessmentEnd)? 
 ;
 
 ScoredSurvey:
     'type' ':' type='scored_survey'
-    'questions' ':' '[' questions+=ScoredSurveyQuestion[/;|,|\s*/] ']'
+    'questions' ':' questions+=ScoredSurveyQuestion[/\s*/] 
     ((end=AssessmentEnd)? 
-    'scoring' ':' '[' scoring+=SurveyScoring[/;|,|\s*/] ']')#
+    'scoring' ':' scoring+=SurveyScoring[/\s*/])#
 ;
 
 Poll:
     'type' ':' type='poll'
-    'question' ':' question=PollQuestion
+    'question' ':' questions=PollQuestion
 ;
 
 SurveyScoring:
-    '{' ('range_start' ':' range_start=INT
-    'range_end' ':' range_end=INT
-    'result' ':' result=ScoredSurveyResultType)# '}'
+    '-' range_start=INT '-' range_end=INT ':' result=ScoredSurveyResultType
 ;
 
 ScoredSurveyResultType:
@@ -52,21 +50,21 @@ PollQuestion:
 ;
 
 SurveyQuestion:
-    '{' ('text' ':' text=STRING
+    'Q' ':' ('text' ':' text=STRING
     (required?='required')?
-    question_details=SurveyQuestionType)# '}'
+    question_details=SurveyQuestionType)# 
 ;
 
 QuizQuestion:
-    '{' ('text' ':' text=STRING
+    'Q' ':' ('text' ':' text=STRING
     question_details=QuizQuestionType
-    (question_points=QuestionPoints)?)# '}'  
+    (question_points=QuestionPoints)?)#
 ;
 
 ScoredSurveyQuestion:
-    '{' ('text' ':' text=STRING
+    'Q' ':' ('text' ':' text=STRING
     (required?='required')?
-    question_details=SingleChoiceQuestion)# '}'
+    question_details=SingleChoiceQuestion)# 
 ;
 
 SurveyQuestionType:
@@ -108,18 +106,18 @@ TrueFalseSubtype:
 
 SingleChoiceQuestion:
     ('type' ':' type='single_choice'
-    'answers' ':' '[' answers+=Answer[/;|,|\s*/] ']')#
+    'answers' ':' answers+=Answer[/\s*/])#
 ;
 
 MultipleChoiceQuestion:
     ('type' ':' type='multiple_choice'
-    'answers' ':' '[' answers+=Answer[/;|,|\s*/] ']'
+    'answers' ':' answers+=Answer[/\s*/]
     accept_partial_answer?='accept_partial_answer')# 
 ;
 
 NumberQuestion:
     ('type' ':' type='number'
-    ('answer' ':' answer=FLOAT)?)# 
+    ('answer' ':' answers=FLOAT)?)# 
 ;
 
 OpinionScaleQuestion:
@@ -132,19 +130,17 @@ ScaleType:
 ;
 
 RangeScale:
-    ('scale_start' ':' scale_start=INT
-    'scale_end' ':' scale_end=INT
+    ('scale' ':' scale_start=INT '-' scale_end=INT
     ('scale_start_label' ':' scale_start_label=STRING)?
     ('scale_end_label' ':' scale_end_label=STRING)?)#
 ;
 
 CustomScale:
-    'scale_options' ':' '[' scale_options+=ScaleOption[/;|,|\s*/] ']'
+    'scale_options' ':' scale_options+=ScaleOption[/\s*/]
 ;
 
 ScaleOption:
-    '{' ('value' ':' value=INT
-    'label' ':' label=STRING)# '}'
+    '-' '[' value=INT ']' label=STRING
 ;
 
 RatingQuestion:
@@ -153,8 +149,8 @@ RatingQuestion:
 ;
 
 Answer:
-    '{' ('text' ':' text=STRING
-    (is_correct="is_correct" | 'points' ':' points=FLOAT)? )# '}'
+    '-' ('[]' | ('[' (is_correct='x' | points=FLOAT) ']'))?  text=STRING
+    //check if some answers have x and some points - can not
 ;
 
 AssessmentEnd:
@@ -163,7 +159,8 @@ AssessmentEnd:
 ;
 
 TimeHours[noskipws]:
-    hours=INT 'h'
+    //hours=INT 'h'
+    '7h'
 ;
 
 TimeMinutes[noskipws]:

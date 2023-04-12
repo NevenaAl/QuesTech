@@ -2,9 +2,8 @@ title: "Sallary poll"
 type: poll
 question:
     text: "Should salary be in job description?"
-    answers: [
-        { text: "Yes" }
-        { text: "No" }
-        { text: "Maybe" }
-        ]
+    answers: 
+        -  "Yes"
+        -  "No" 
+        -  "Maybe" 
     type: single_choice

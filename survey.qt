@@ -1,53 +1,52 @@
 title: "Employee Survey"
 type: survey
-questions: [
-    {
+questions: 
+    Q:
         text: "How long have you been working in our company?"
         type: single_choice
-        answers: [
-            { text: "<1 year" },
-            { text: "1-2 years" },
-            { text: "2-3 years" },
-            { text: "3+ years" }
-        ]
+        answers:
+            - "<1 year" 
+            - "1-2 years" 
+            - "2-3 years" 
+            - "3+ years" 
         required
-    },
-    {
+    Q:
         text: "What is your ranking?"
         type: number
         required
-    },
-    {
+    Q:
         text: "How would you improve your experience in our company?"
         type: open_ended
-    },
-    {
+    Q:
         text: "What factors would have the biggest impact on improving your satisfaction?"
         type: multiple_choice
-        answers: [
-            { text: "Bigger salary" },
-            { text: "Newer technologies" },
-            { text: "Better communication with colleagues"},
-            { text: "Less work" }
-        ]        
-    },
-    {
+        answers: 
+            - "Bigger salary" 
+            - "Newer technologies" 
+            - "Better communication with colleagues"
+            - "Less work" 
+    Q:
         text: "Would you recommend out company to a friend?"
         type: true_false
         subtype: yes/no
         required
-    },
-    {
+    Q:
         text: "I am happy at my job. How much do you agree with this statement?"
         type: opinion_scale
-        scale_start: 0
-        scale_end: 5
+        scale: 0-5
         scale_start_label: "Strongly Agree"
         scale_end_label: "Strongly Disagree"
-    },
-    {
+    Q:
+        text: "I feel like I am learning at my job. How much do you agree with this statement?"
+        type: opinion_scale
+        scale_options:
+            - [10] "Strongly Agree"
+            - [8] "Agree"
+            - [5] "Disagree"
+            - [0] "Strongly Disagree"
+    Q:
         text: "How would you rate this survey?"
         type: rating
         max_rate: 5
-    }
-]
+    
+

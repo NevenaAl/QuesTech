@@ -1,3 +1,4 @@
+from pymaybe import maybe
 class Answer(object):
     def __init__(self, text: str):
         self.text = text
@@ -21,6 +22,7 @@ def convert_answers(answers):
 
 
 def convert_questions(questions):
+    # ako je samo jedno pitanje napravi niz
     return questions
 
 
@@ -29,12 +31,12 @@ def parse_completion_time(completion_time):
 
 
 class AssessmentDetails(object):
-    def __init__(self, questions, default_points_per_question: float, default_negative_points_per_question: float, completion_time, can_skip_to_end: bool):
+    def __init__(self, questions):
         self.questions = convert_questions(questions)
-        self.default_points_per_question = default_points_per_question
-        self.default_negative_points_per_question = default_negative_points_per_question
-        self.completion_time = parse_completion_time(completion_time)
-        self.can_skip_to_end = can_skip_to_end
+        self.default_points_per_question = None
+        self.default_negative_points_per_question = None
+        self.completion_time = None
+        self.can_skip_to_end =None
         self.percentage_required = None
         self.num_of_correct_answers_required = None
         self.points_required = None
@@ -45,9 +47,14 @@ class AssessmentDetails(object):
 
 
 def convert_assessment_details(assessment_details):
-    temp = AssessmentDetails(assessment_details.questions, assessment_details.default_points_per_question,
-                             assessment_details.default_negative_points_per_question, assessment_details.end.completion_time, assessment_details.end.can_skip_to_end)
+    temp = AssessmentDetails(assessment_details.questions)
+    if(assessment_details.type != "poll"):
+        temp.completion_time = parse_completion_time(maybe(assessment_details.end).completion_time)
+        temp.can_skip_to_end = maybe(assessment_details.end).can_skip_to_end
+        
     if (assessment_details.type == "quiz" and assessment_details.pass_criteria):
+        temp.default_points_per_question= assessment_details.default_points_per_question
+        temp.default_negative_points_per_question=assessment_details.default_negative_points_per_question
         temp.percentage_required = assessment_details.pass_criteria.percentage_required
         temp.num_of_correct_answers_required = assessment_details.pass_criteria.num_of_correct_answers_required
         temp.points_required = assessment_details.pass_criteria.points_required
