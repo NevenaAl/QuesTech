@@ -1,0 +1,13 @@
+.survey_wrapper {
+  min-width: 400px;
+  max-width: 70%;
+  width: fit-content;
+  min-height: 100%;
+  padding: 20px 0;
+  margin: auto;
+}
+
+.button_wrapper {
+  display: flex;
+  justify-content: end;
+}

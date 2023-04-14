@@ -15,7 +15,7 @@ import {
 
 const Question = ({ question }) => {
   return (
-    <>
+    <Box>
       <Paper
         square
         elevation={0}
@@ -24,17 +24,19 @@ const Question = ({ question }) => {
           alignItems: "center",
           height: 50,
           pl: 2,
-          bgcolor: "background.default",
         }}
       >
-        <Typography>{question.text}</Typography>
+        <Typography fontWeight={450}>
+          {question.text} {question.required && "*"}
+        </Typography>
       </Paper>
-      <Box sx={{ minHeight: 250, width: "100%", p: 2 }}>
+      <Box sx={{ width: "100%", p: 2 }}>
         {question.type === "multiple_choice" && (
           <FormGroup>
-            {question.answers.map((answer) => {
+            {question.answers.map((answer, index) => {
               return (
                 <FormControlLabel
+                  key={index}
                   style={{ width: "100%" }}
                   value={answer}
                   control={<Checkbox />}
@@ -54,9 +56,10 @@ const Question = ({ question }) => {
           <FormControl>
             <RadioGroup name="radio-buttons-group">
               <FormGroup>
-                {question.answers.map((answer) => {
+                {question.answers.map((answer, index) => {
                   return (
                     <FormControlLabel
+                      key={index}
                       style={{ width: "100%" }}
                       value={answer}
                       control={<Radio />}
@@ -96,7 +99,44 @@ const Question = ({ question }) => {
             </RadioGroup>
           </FormControl>
         )}
-        {question.type === "opinion_scale" && <div></div>}
+        {question.type === "opinion_scale" && (
+          <FormControl>
+            <RadioGroup row name="opinion_scale">
+              {question.scale_options
+                ? question.scale_options.map((scale_option, index) => {
+                    return (
+                      <FormControlLabel
+                        key={index}
+                        value={scale_option.value}
+                        control={<Radio />}
+                        label={scale_option.label}
+                        labelPlacement="bottom"
+                      />
+                    );
+                  })
+                : (function (scales, start, end) {
+                    for (let i = start; i <= end; i++) {
+                      const label =
+                        i === question.scale_start
+                          ? question.scale_start_label
+                          : i === question.scale_end
+                          ? question.scale_end_label
+                          : "";
+                      scales.push(
+                        <FormControlLabel
+                          key={i}
+                          value={i}
+                          control={<Radio />}
+                          label={label ?? ""}
+                          labelPlacement="bottom"
+                        />
+                      );
+                    }
+                    return scales;
+                  })([], question.scale_start, question.scale_end)}
+            </RadioGroup>
+          </FormControl>
+        )}
         {question.type === "rating" && (
           <Rating
             name="simple-controlled"
@@ -109,7 +149,7 @@ const Question = ({ question }) => {
           />
         )}
       </Box>
-    </>
+    </Box>
   );
 };
 

@@ -7,7 +7,7 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { useState } from "react";
 import Question from "../question/Question";
-
+import styles from "./Quiz.module.css";
 const Quiz = ({ questions }) => {
   const theme = useTheme();
   const [activeQuestion, setActiveQuestion] = useState(0);
@@ -22,7 +22,7 @@ const Quiz = ({ questions }) => {
   };
 
   return (
-    <Box sx={{ minWidth: 400, maxWidth: "50%" }}>
+    <Box className={styles.quiz_wrapper}>
       <Question question={questions[activeQuestion]} />
       <MobileStepper
         variant="text"

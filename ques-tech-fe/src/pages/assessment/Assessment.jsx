@@ -1,4 +1,5 @@
 import Quiz from "../../components/quiz/Quiz";
+import Survey from "../../components/survey/Survey";
 import styles from "./Assessment.module.css";
 const steps = [
   {
@@ -14,6 +15,7 @@ const steps = [
   {
     text: "Create an ad group",
     type: "open_ended",
+    required: true,
   },
   {
     text: "Create an ad group",
@@ -30,12 +32,30 @@ const steps = [
     type: "rating",
     maxRate: 10,
   },
+  {
+    text: "Create an ad group",
+    type: "opinion_scale",
+    scale_start: 0,
+    scale_end: 5,
+    scale_end_label: "Very much",
+    scale_start_label: "Not at all",
+  },
+  {
+    text: "Create an ad group",
+    type: "opinion_scale",
+    scale_options: [
+      { value: 0, label: "a lot" },
+      { value: 1, label: "so so" },
+      { value: 2, label: "not" },
+      { value: 3, label: "not at all" },
+      { value: 5, label: "neever" },
+    ],
+  },
 ];
 const Assessment = () => {
   return (
-    <div className={styles.assessment_wrapper}>
-      <Quiz questions={steps}></Quiz>
-    </div>
+    // <Quiz questions={steps}></Quiz>
+    <Survey questions={steps} />
   );
 };
 
