@@ -1,0 +1,10 @@
+.welcome_page_wrapper {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1000px rgba(254, 252, 252, 0.5);
+  background: url("../../assets/background.jpg");
+}

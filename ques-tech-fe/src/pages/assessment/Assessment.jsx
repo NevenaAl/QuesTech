@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import Quiz from "../../components/quiz/Quiz";
 import Survey from "../../components/survey/Survey";
 import styles from "./Assessment.module.css";
@@ -53,6 +54,8 @@ const steps = [
   },
 ];
 const Assessment = () => {
+  //TODO pass assessment data
+  const assessment = useSelector((state) => state.assessment);
   return (
     // <Quiz questions={steps}></Quiz>
     <Survey questions={steps} />
