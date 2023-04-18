@@ -1,16 +1,24 @@
 import Box from "@mui/material/Box";
 
 import Button from "@mui/material/Button";
-import { useState } from "react";
 import Question from "../question/Question";
 import styles from "./Survey.module.css";
+import { personalInfoQuestions } from "../../utils/constants";
 
-const Survey = ({ questions }) => {
+const Survey = ({ askForPersonalInfo, questions }) => {
   return (
     <Box className={styles.survey_wrapper}>
+      {/* //TODO render this in quiz somehow */}
+      {askForPersonalInfo &&
+        personalInfoQuestions.map((question, index) => (
+          <Box key={index}>
+            <Question questionId={question.id} question={question} />
+            <hr style={{ opacity: 0.5 }}></hr>
+          </Box>
+        ))}
       {questions.map((question, index) => (
         <Box key={index}>
-          <Question question={question} />
+          <Question questionIndex={index} question={question} />
           <hr style={{ opacity: 0.5 }}></hr>
         </Box>
       ))}

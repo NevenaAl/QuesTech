@@ -12,8 +12,18 @@ import {
   TextField,
   Rating,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { setAnwser, setMultipleChoiceAnwser } from "../../redux/resultsSlice";
 
-const Question = ({ question }) => {
+const Question = ({ questionId, questionIndex, question }) => {
+  const dispatch = useDispatch();
+
+  const onAnswerChange = (e) => {
+    questionId
+      ? dispatch(setAnwser({ questionId, answer: e.target.value }))
+      : dispatch(setAnwser({ questionIndex, answer: e.target.value }));
+  };
+
   return (
     <Box>
       <Paper
@@ -32,7 +42,17 @@ const Question = ({ question }) => {
       </Paper>
       <Box sx={{ width: "100%", p: 2 }}>
         {question.type === "multiple_choice" && (
-          <FormGroup>
+          <FormGroup
+            onChange={(e) => {
+              dispatch(
+                setMultipleChoiceAnwser({
+                  questionIndex,
+                  answer: e.target.value,
+                  checked: e.target.checked,
+                })
+              );
+            }}
+          >
             {question.answers.map((answer, index) => {
               return (
                 <FormControlLabel
@@ -54,7 +74,7 @@ const Question = ({ question }) => {
         )}
         {question.type === "single_choice" && (
           <FormControl>
-            <RadioGroup name="radio-buttons-group">
+            <RadioGroup onChange={onAnswerChange}>
               <FormGroup>
                 {question.answers.map((answer, index) => {
                   return (
@@ -77,13 +97,20 @@ const Question = ({ question }) => {
             </RadioGroup>
           </FormControl>
         )}
-        {question.type === "number" && <TextField type="number" />}
+        {question.type === "number" && (
+          <TextField onChange={onAnswerChange} type="number" />
+        )}
+        {/* TODO maybe add another type for one line words which has correct answer */}
         {question.type === "open_ended" && (
-          <TextareaAutosize minRows={10} style={{ width: "90%" }} />
+          <TextareaAutosize
+            onChange={onAnswerChange}
+            minRows={10}
+            style={{ width: "90%" }}
+          />
         )}
         {question.type === "true_false" && (
           <FormControl>
-            <RadioGroup name="radio-buttons-group">
+            <RadioGroup onChange={onAnswerChange} name="radio-buttons-group">
               <FormGroup>
                 <FormControlLabel
                   value={true}
@@ -101,7 +128,7 @@ const Question = ({ question }) => {
         )}
         {question.type === "opinion_scale" && (
           <FormControl>
-            <RadioGroup row name="opinion_scale">
+            <RadioGroup onChange={onAnswerChange} row name="opinion_scale">
               {question.scale_options
                 ? question.scale_options.map((scale_option, index) => {
                     return (
@@ -140,12 +167,9 @@ const Question = ({ question }) => {
         {question.type === "rating" && (
           <Rating
             name="simple-controlled"
-            // value={value}
             precision={0.5}
             max={question.maxRate}
-            // onChange={(event, newValue) => {
-            //   setValue(newValue);
-            // }}
+            onChange={onAnswerChange}
           />
         )}
       </Box>

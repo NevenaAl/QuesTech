@@ -1,37 +1,57 @@
-import { FormGroup, Input, Button, Typography, Alert } from "@mui/material";
+import {
+  Button,
+  Typography,
+  Alert,
+  FormControl,
+  MenuItem,
+  InputLabel,
+  Select,
+  TextField,
+} from "@mui/material";
 import styles from "./Welcome.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setAssessmentData } from "../../redux/assessmentSlice";
 import { useDispatch } from "react-redux";
 import { loadAssessment } from "../../services/assessmentService";
 
 const Welcome = () => {
-  const [fileName, setFileName] = useState("");
+  const [selectedExample, setSelectedExample] = useState("");
+  const [path, setPath] = useState("");
+  const [examples, setExamples] = useState([]);
   const [fileError, setFileError] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleFileUpload = (event) => {
-    if (event.target.files.length) {
-      let fileObj = event.target.files[0];
-      let fileName = fileObj.name;
-      if (["qt"].includes(fileName.slice(fileName.lastIndexOf(".") + 1))) {
-        setFileName(fileName);
-        setFileError(false);
-        loadAssessment(fileName)
-          .then((resp) => {
-            dispatch(setAssessmentData(resp.data));
-          })
-          .catch((err) => {});
-      } else {
-        setFileName("");
-        setFileError(true);
-      }
-    }
+  const importAll = (r) => {
+    return r.keys().map(r);
   };
 
+  useEffect(() => {
+    const filenames = importAll(
+      require.context("../../../../examples", false, /\.(qt)$/)
+    ).map((fileName) => {
+      const temp = fileName.slice(fileName.lastIndexOf("/") + 1).split(".");
+      return [temp[0], temp[2]].join(".");
+    });
+    setExamples(filenames);
+  }, []);
+
+  useEffect(() => {
+    setPath(selectedExample);
+  }, [selectedExample]);
+
   const navigateToAssessment = () => {
+    //TODO
+    // loadAssessment(path)
+    //   .then((resp) => {
+    //     dispatch(setAssessmentData(resp.data));
+    //     navigate("/assessment");
+    //   })
+    //   .catch((err) => {
+    //     setFileError(true);
+    //   });
     navigate("/assessment");
   };
 
@@ -41,43 +61,37 @@ const Welcome = () => {
         Welcome to QuesTech
       </Typography>
       <Typography marginBottom="20px">
-        To get started, choose a file from your computer and start an
+        To get started, choose an example file or enter a path to your own
         assessment!
       </Typography>
-
-      <form style={{ marginBottom: "40px" }}>
-        <FormGroup row>
-          <div style={{ marginRight: "15px" }}>
-            <Button
-              size="small"
-              color="info"
-              variant="contained"
-              component="label"
-            >
-              <span>Browse&hellip;</span>
-              <input
-                type="file"
-                className={styles.file_input}
-                accept=".qt"
-                hidden
-                onChange={handleFileUpload}
-                onClick={(event) => {
-                  event.target.value = null;
-                }}
-              />
-            </Button>
-          </div>
-          <Input
-            type="text"
-            className="form-control"
-            value={fileName}
-            readOnly
-          />
-        </FormGroup>
-      </form>
+      <div className={styles.file_inputs}>
+        <FormControl
+          style={{ width: "250px", marginRight: 20, background: "white" }}
+        >
+          <InputLabel id="select-label">Select assessment</InputLabel>
+          <Select
+            labelId="select-label"
+            value={selectedExample}
+            label="Select assessment"
+            onChange={(e) => setSelectedExample(e.target.value)}
+          >
+            {examples.map((example) => (
+              <MenuItem key={example} value={example}>
+                {example}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <TextField
+          style={{ background: "white", width: "300px" }}
+          placeholder="Enter path"
+          value={path}
+          onChange={(e) => setPath(e.target.value)}
+        ></TextField>
+      </div>
       {fileError && (
         <Alert style={{ marginBottom: "30px" }} severity="error">
-          Please select only .qt files.
+          There's been an error loading assessment file. Please check your path.
         </Alert>
       )}
       <Button

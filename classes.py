@@ -1,4 +1,5 @@
 from pymaybe import maybe
+# TODO add validations in interpreter
 
 
 class Answer(object):

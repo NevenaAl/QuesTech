@@ -3,5 +3,5 @@ import axios from "axios";
 
 export const loadAssessment = async (path) => {
   //TODO
-  return await axios.get(`getAssessment/?path=${path}`);
+  return await axios.get(`getAssessment`, { params: { path } });
 };

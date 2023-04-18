@@ -8,6 +8,7 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { useState } from "react";
 import Question from "../question/Question";
 import styles from "./Quiz.module.css";
+
 const Quiz = ({ questions }) => {
   const theme = useTheme();
   const [activeQuestion, setActiveQuestion] = useState(0);

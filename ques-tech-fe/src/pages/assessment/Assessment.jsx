@@ -58,7 +58,10 @@ const Assessment = () => {
   const assessment = useSelector((state) => state.assessment);
   return (
     // <Quiz questions={steps}></Quiz>
-    <Survey questions={steps} />
+    <Survey
+      askForPersonalInfo={assessment.askForPersonalInfo}
+      questions={steps}
+    />
   );
 };
 
