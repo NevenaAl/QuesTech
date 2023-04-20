@@ -33,7 +33,7 @@ ScoredSurvey:
 
 Poll:
     'type' ':' type='poll'
-    'question' ':' questions=PollQuestion
+    'question' ':' question=PollQuestion
 ;
 
 SurveyScoring:
@@ -96,8 +96,12 @@ OpenEndedQuestion:
 
 TrueFalseQuestion:
     ('type' ':' type='true_false'
-    ('correct_answer' ':' correct_answer=BOOL)? 
+    ('correct_answer' ':' correct_answer=TrueFalseAnswer)? 
     ('subtype' ':' subtype=TrueFalseSubtype)?)#
+;
+
+TrueFalseAnswer:
+    'yes' | 'no' | 'true' | 'false'
 ;
 
 TrueFalseSubtype:
@@ -117,7 +121,7 @@ MultipleChoiceQuestion:
 
 NumberQuestion:
     ('type' ':' type='number'
-    ('answer' ':' answers=FLOAT)?)# 
+    ('answer' ':' answer=FLOAT)?)# 
 ;
 
 OpinionScaleQuestion:

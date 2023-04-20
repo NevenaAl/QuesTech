@@ -1,16 +1,17 @@
 from pymaybe import maybe
-# TODO add validations in interpreter
 
 
 class Answer(object):
     def __init__(self, text: str):
         self.text = text
+        self.is_correct = False
+        self.points = None
 
 
 class Question(object):
-    def __init__(self, text: str, answers: list[Answer]):
+    def __init__(self, text: str):
         self.text = text
-        self.answers = convert_answers(answers)
+        self.answers = []
 
 
 class Scoring(object):
@@ -20,22 +21,51 @@ class Scoring(object):
         self.result = result
 
 
-def convert_answers(answers):
-    return answers
+def get_answer_object(answer):
+    return Answer(str(answer)) if isinstance(answer, float) else Answer(answer.text)
 
 
-def convert_questions(questions):
-    # ako je samo jedno pitanje napravi niz
-    return questions
+def convert_answers(question_details):
+    if hasattr(question_details, "answers"):
+        # if hasattr(question_details.answers, '__len__') and (not isinstance(question_details.answers, str)):
+        return list(map(get_answer_object, question_details.answers))
+    elif hasattr(question_details, "answer"):
+        return list(map(get_answer_object, [question_details.answer]))
+    return []
+
+
+def get_question_object(question):
+    temp = Question(question.text)
+    temp.answers = convert_answers(question.question_details)
+    return temp
+
+
+def convert_questions(asseessment_details):
+    if (hasattr(asseessment_details, "questions")):
+        # if hasattr(asseessment_details.questions, '__len__') and (not isinstance(asseessment_details.questions, str)):
+        return list(map(get_question_object, asseessment_details.questions))
+    elif (hasattr(asseessment_details, "question")):
+        return list(map(get_question_object, [asseessment_details.question]))
+    return []
 
 
 def parse_completion_time(completion_time):
     return completion_time
 
 
+class SurveyScoring(object):
+    def __init__(self, start, end, result):
+        self.start = start
+        self.end = end
+        self.result = result
+
+    def __repr__(self):
+        return 'start: ' + str(self.start) + " end: " + str(self.end) + "\n"
+
+
 class AssessmentDetails(object):
-    def __init__(self, questions):
-        self.questions = convert_questions(questions)
+    def __init__(self, ):
+        self.questions = None
         self.default_points_per_question = None
         self.default_negative_points_per_question = None
         self.completion_time = None
@@ -43,14 +73,19 @@ class AssessmentDetails(object):
         self.percentage_required = None
         self.num_of_correct_answers_required = None
         self.points_required = None
-        self.scoring = []
+        self.scoring = [SurveyScoring]
 
     def __str__(self):
-        return f'Can skip: {self.can_skip_to_end}, default neg points: {self.default_negative_points_per_question}'
+        # temp = ""
+        # for i in self.scoring:
+        #     temp += (str(i.start))
+        # return temp
+        return f'Can skip: {self.can_skip_to_end}, default neg points: {self.default_negative_points_per_question}, Scoring:  {str(self.scoring)}'
 
 
 def convert_assessment_details(assessment_details):
-    temp = AssessmentDetails(assessment_details.questions)
+    temp = AssessmentDetails()
+    temp.questions = convert_questions(assessment_details)
     if (assessment_details.type != "poll"):
         temp.completion_time = parse_completion_time(
             maybe(assessment_details.end).completion_time)
@@ -64,7 +99,8 @@ def convert_assessment_details(assessment_details):
         temp.points_required = assessment_details.pass_criteria.points_required
 
     if (assessment_details.type == "scored_survey"):
-        temp.scoring = assessment_details.scoring
+        temp.scoring = list(map(lambda scoring: SurveyScoring(
+            scoring.range_start, scoring.range_end, scoring.result), assessment_details.scoring))
 
     return temp
 

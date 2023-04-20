@@ -44,8 +44,8 @@ questions:
         required
 scoring: 
         - 0-5: "Not friendly and likes to be alone"
-        - 5-10: "Not friendly but don't mind people's company"
+        - 10-5: "Not friendly but don't mind people's company"
         - 10-15: "Friendly"
         - 15-20: "Very friendly and outgoing"
-        - 0-5: "Not friendly and likes to be alone"
+        - 20-25: "Not friendly and likes to be alone"
 can_skip_to_end
