@@ -22,15 +22,16 @@ class Scoring(object):
 
 
 def get_answer_object(answer):
-    return Answer(str(answer)) if isinstance(answer, float) else Answer(answer.text)
+    return Answer(str(answer)) if isinstance(answer, (float, str)) else Answer(answer.text)
 
 
 def convert_answers(question_details):
     if hasattr(question_details, "answers"):
         # if hasattr(question_details.answers, '__len__') and (not isinstance(question_details.answers, str)):
         return list(map(get_answer_object, question_details.answers))
-    elif hasattr(question_details, "answer"):
-        return list(map(get_answer_object, [question_details.answer]))
+    elif hasattr(question_details, "correct_answer") and question_details.correct_answer is not None:
+        # TODO float je 0.0 i kad se ne navede
+        return list(map(get_answer_object, [question_details.correct_answer]))
     return []
 
 

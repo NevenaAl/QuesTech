@@ -15,7 +15,7 @@ class AssessmentData():
 
 
 @ click.command()
-@ click.option('--assessment_file', default="examples/survey.qt", help="Full or relative path to the assessment file")
+@ click.option('--assessment_file', default="examples/quiz.qt", help="Full or relative path to the assessment file")
 def main(assessment_file):
     this_folder = dirname(__file__)
     assessment_mm = get_assessment_mm(this_folder)

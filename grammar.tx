@@ -121,7 +121,7 @@ MultipleChoiceQuestion:
 
 NumberQuestion:
     ('type' ':' type='number'
-    ('answer' ':' answer=FLOAT)?)# 
+    ('correct_answer' ':' correct_answer=FLOAT)?)# 
 ;
 
 OpinionScaleQuestion:
@@ -163,16 +163,19 @@ AssessmentEnd:
 ;
 
 TimeHours[noskipws]:
-    //hours=INT 'h'
-    '7h'
+    hours=MyInt 'h'
 ;
 
 TimeMinutes[noskipws]:
-    minutes=INT 'm'
+    minutes=MyInt 'm'
 ;
 
 TimeSeconds[noskipws]:
-    seconds=INT 's'
+    seconds=MyInt 's'
+;
+
+MyInt:
+    /[0-9]+/
 ;
 
 Time:
