@@ -154,7 +154,6 @@ RatingQuestion:
 
 Answer:
     '-' ('[]' | ('[' (is_correct='x' | points=FLOAT) ']'))?  text=STRING
-    //check if some answers have x and some points - can not
 ;
 
 AssessmentEnd:

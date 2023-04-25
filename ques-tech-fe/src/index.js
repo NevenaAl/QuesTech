@@ -9,7 +9,7 @@ import store from "./redux/store";
 import Axios from "axios";
 
 //TODO
-Axios.defaults.baseURL = "http://TEST";
+Axios.defaults.baseURL = "http://127.0.0.1:8000";
 const router = createBrowserRouter([
   {
     path: "/",

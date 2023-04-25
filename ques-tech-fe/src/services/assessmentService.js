@@ -1,7 +1,7 @@
 import axios from "axios";
-// let BASE_URL = "https://fakestoreapi.com";
 
-export const loadAssessment = async (path) => {
-  //TODO
-  return await axios.get(`getAssessment`, { params: { path } });
+export const loadAssessment = async (assessmentFile) => {
+  return await axios.get(`assessment`, {
+    params: { assessment_file: assessmentFile },
+  });
 };

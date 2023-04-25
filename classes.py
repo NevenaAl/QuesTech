@@ -1,5 +1,3 @@
-from pymaybe import maybe
-
 
 class Answer(object):
     def __init__(self, text: str):
@@ -74,23 +72,20 @@ class AssessmentDetails(object):
         self.percentage_required = None
         self.num_of_correct_answers_required = None
         self.points_required = None
-        self.scoring = [SurveyScoring]
+        self.scoring = None
 
     def __str__(self):
-        # temp = ""
-        # for i in self.scoring:
-        #     temp += (str(i.start))
-        # return temp
         return f'Can skip: {self.can_skip_to_end}, default neg points: {self.default_negative_points_per_question}, Scoring:  {str(self.scoring)}'
 
 
-def convert_assessment_details(assessment_details):
+def convert_assessment_details(assessment_details) -> AssessmentDetails:
     temp = AssessmentDetails()
     temp.questions = convert_questions(assessment_details)
-    if (assessment_details.type != "poll"):
-        temp.completion_time = parse_completion_time(
-            maybe(assessment_details.end).completion_time)
-        temp.can_skip_to_end = maybe(assessment_details.end).can_skip_to_end
+    # TODO ne raditi sa maybe, puca, dodati hasattr
+    # if (assessment_details.type != "poll"):
+    #     temp.completion_time = parse_completion_time(
+    #         maybe(assessment_details.end).completion_time)
+    #     temp.can_skip_to_end = maybe(assessment_details.end).can_skip_to_end
 
     if (assessment_details.type == "quiz" and assessment_details.pass_criteria):
         temp.default_points_per_question = assessment_details.default_points_per_question
@@ -106,6 +101,12 @@ def convert_assessment_details(assessment_details):
     return temp
 
 
+class Test(object):
+    def __init__(self, text):
+
+        self.text = text
+
+
 class Assessment(object):
     def __init__(self, title: str, description: str, ask_for_personal_info: bool, assessment_details: AssessmentDetails):
         self.title = title
@@ -115,5 +116,5 @@ class Assessment(object):
         self.assessment_details = convert_assessment_details(
             assessment_details)
 
-    def __str__(self):
-        return "Title: " + self.title + ", description: " + self.description + "\nDetails:" + str(self.assessment_details)
+    # def __str__(self):
+    #     return "Title: " + self.title + ", description: " + self.description + "\nDetails:" + str(self.assessment_details)

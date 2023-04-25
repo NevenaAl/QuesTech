@@ -44,15 +44,16 @@ const Welcome = () => {
 
   const navigateToAssessment = () => {
     //TODO
-    // loadAssessment(path)
-    //   .then((resp) => {
-    //     dispatch(setAssessmentData(resp.data));
-    //     navigate("/assessment");
-    //   })
-    //   .catch((err) => {
-    //     setFileError(true);
-    //   });
-    navigate("/assessment");
+    loadAssessment(path)
+      .then((resp) => {
+        dispatch(setAssessmentData(resp.data));
+        console.log(resp.data);
+        navigate("/assessment");
+      })
+      .catch((err) => {
+        setFileError(true);
+        console.log(err);
+      });
   };
 
   return (
@@ -99,6 +100,7 @@ const Welcome = () => {
         size="medium"
         color="success"
         variant="contained"
+        disabled={!path}
       >
         START
       </Button>

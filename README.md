@@ -13,18 +13,13 @@ e.g.
             <li><b>Linux:</b>&emsp;&emsp;source .\venv\bin\activate</li>
         </ul>
     </li>
-    <li>Run application with "python main.py" to use the default assessment file = quiz.qt</li>
-    <li>To run other assessment, run with "python main.py assessment_file=[path-to-some-other-assessment-file]"</li>
+    <li>Run application with "python main.py". It will create metamodel, generate dot files and run the server on http://127.0.0.1:8000.</li>
+    <li>If you only want to create metamodel and dot files, run with "python main.py --run_server=false"</li>
 </ol>
 Installation
 <ol>
   <li>
      <b>Install textX:</b> pip install textx[cli]
-  </li>
-  <li>
-    <b>Create visualization (GraphViz is needed): </b>
-        textx generate grammar.tx --target dot
-        dot -Tpng -O grammar.dot
   </li>
 </ol>
 <br/>
