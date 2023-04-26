@@ -2,14 +2,20 @@ import { createSlice } from "@reduxjs/toolkit";
 export const assessmentSlice = createSlice({
   name: "assessmentData",
   initialState: {
-    type: "",
-    title: "",
-    description: "",
-    questions: [],
+    assessmentData: {
+      // questions: [],
+      // assessmentDetails: {},
+    },
   },
   reducers: {
     setAssessmentData: (state, action) => {
-      state.title = action.payload.title;
+      state.assessmentData = action.payload;
+      // state.assessmentData.questions =
+      //   action.payload.assessment_details.questions;
+      // state.assessmentData.assessmentDetails =
+      //   action.payload.assessment_details;
+      // delete state.assessmentData["assessment_details"];
+      // delete state.assessmentData.assessmentDetails["questions"];
     },
   },
 });

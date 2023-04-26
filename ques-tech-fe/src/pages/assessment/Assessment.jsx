@@ -56,11 +56,12 @@ const steps = [
 const Assessment = () => {
   //TODO pass assessment data
   const assessment = useSelector((state) => state.assessment);
+  console.log(assessment);
   return (
     // <Quiz questions={steps}></Quiz>
     <Survey
-      askForPersonalInfo={assessment.askForPersonalInfo}
-      questions={steps}
+      askForPersonalInfo={assessment.assessmentData.ask_for_personal_info}
+      questions={assessment.assessmentData.questions}
     />
   );
 };

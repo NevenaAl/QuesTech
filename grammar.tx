@@ -162,15 +162,15 @@ AssessmentEnd:
 ;
 
 TimeHours[noskipws]:
-    hours=MyInt 'h'
+    amount=MyInt 'h'
 ;
 
 TimeMinutes[noskipws]:
-    minutes=MyInt 'm'
+    amount=MyInt 'm'
 ;
 
 TimeSeconds[noskipws]:
-    seconds=MyInt 's'
+    amount=MyInt 's'
 ;
 
 MyInt:
@@ -178,5 +178,6 @@ MyInt:
 ;
 
 Time:
-   (TimeHours TimeMinutes TimeSeconds) | (TimeHours TimeMinutes) | (TimeHours TimeSeconds) | (TimeMinutes TimeSeconds) | TimeHours | TimeMinutes | TimeSeconds
+   (hours=TimeHours ':'? (minutes=TimeMinutes)? ':'? (seconds=TimeSeconds)?) | (minutes=TimeMinutes ':'? (seconds=TimeSeconds)?) | seconds=TimeSeconds
 ;
+

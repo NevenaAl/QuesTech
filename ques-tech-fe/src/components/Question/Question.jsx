@@ -58,13 +58,13 @@ const Question = ({ questionId, questionIndex, question }) => {
                 <FormControlLabel
                   key={index}
                   style={{ width: "100%" }}
-                  value={answer}
+                  value={answer.text}
                   control={<Checkbox />}
                   label={
                     <Typography
                       style={{ wordWrap: "break-word", width: "100%" }}
                     >
-                      {answer}
+                      {answer.text}
                     </Typography>
                   }
                 />
@@ -81,13 +81,13 @@ const Question = ({ questionId, questionIndex, question }) => {
                     <FormControlLabel
                       key={index}
                       style={{ width: "100%" }}
-                      value={answer}
+                      value={answer.text}
                       control={<Radio />}
                       label={
                         <Typography
                           style={{ wordWrap: "break-word", width: "100%" }}
                         >
-                          {answer}
+                          {answer.text}
                         </Typography>
                       }
                     />

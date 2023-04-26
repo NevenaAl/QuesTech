@@ -6,7 +6,7 @@ import click
 import uvicorn
 
 from metamodel import get_assessment_mm
-from classes import Assessment, Test
+from classes import Assessment
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi import FastAPI
@@ -27,8 +27,7 @@ this_folder = dirname(__file__)
 assessment_mm = get_assessment_mm(this_folder)
 
 
-@app.get("/assessment", response_model=None)
-def hello(assessment_file: str):
+def generate_model(assessment_file: str):
     try:
         # assessment: Assessment = assessment_mm.model_from_file(
         #     join(abspath(this_folder), assessment_file))
@@ -46,7 +45,14 @@ def hello(assessment_file: str):
         print("Exception: {}".format(type(e).__name__))
         print("Exception message: {}".format(e))
         return
+    return assessment
 
+
+@app.get("/assessment", response_model=None)
+def hello(assessment_file: str):
+    assessment = generate_model(assessment_file)
+    if assessment is None:
+        return
     response = Assessment(assessment.title, assessment.description,
                           assessment.ask_for_personal_info, assessment.assessment_details)
 
@@ -61,9 +67,10 @@ def hello(assessment_file: str):
 
 
 @ click.command()
-@ click.option('--run_server', default="true", help="Full or relative path to the assessment file")
-# TODO izmeniti read me - ovo je opcija koju stavimo na false ako hocemo samo da se generise meta model i dot fajlovi
-def main(run_server):
+@ click.option('--run_server', default="true", help="Option to not run server")
+@ click.option('--assessment_file', help="Full or relative path to the assessment file")
+# TODO testirati opciju da dodas assessment file
+def main(run_server, assessment_file):
     dot_folder = join(this_folder, 'dot_files')
     if not os.path.exists(dot_folder):
         os.mkdir(dot_folder)
@@ -71,7 +78,9 @@ def main(run_server):
     (graph,) = pydot.graph_from_dot_file(join(dot_folder, 'grammar.dot'))
     graph.write_png(join(dot_folder, 'grammar.png'))
 
-    if run_server != "false":
+    if assessment_file is not None:
+        generate_model(assessment_file)
+    elif run_server != "false":
         uvicorn.run("main:app", log_level="info")
 
 

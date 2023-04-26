@@ -1,4 +1,5 @@
 
+# TODO implement opinion scale
 class Answer(object):
     def __init__(self, text: str):
         self.text = text
@@ -7,9 +8,15 @@ class Answer(object):
 
 
 class Question(object):
-    def __init__(self, text: str):
+    def __init__(self, type: str, text: str):
+        self.type = type
         self.text = text
         self.answers = []
+        self.required = None
+        self.subtype = None
+        self.max_rate = None
+        self.accept_partial_answer = None
+        self.question_points = None
 
 
 class Scoring(object):
@@ -25,7 +32,6 @@ def get_answer_object(answer):
 
 def convert_answers(question_details):
     if hasattr(question_details, "answers"):
-        # if hasattr(question_details.answers, '__len__') and (not isinstance(question_details.answers, str)):
         return list(map(get_answer_object, question_details.answers))
     elif hasattr(question_details, "correct_answer") and question_details.correct_answer is not None:
         # TODO float je 0.0 i kad se ne navede
@@ -34,22 +40,35 @@ def convert_answers(question_details):
 
 
 def get_question_object(question):
-    temp = Question(question.text)
+    temp = Question(question.question_details.type, question.text)
     temp.answers = convert_answers(question.question_details)
+    if hasattr(question, "required"):
+        temp.required = question.required
+    if hasattr(question.question_details, "subtype"):
+        temp.subtype = question.question_details.subtype
+    if hasattr(question.question_details, "max_rate"):
+        temp.max_rate = question.question_details.max_rate
+    if hasattr(question.question_details, "accept_partial_answer"):
+        temp.accept_partial_answer = question.question_details.accept_partial_answer
     return temp
 
 
 def convert_questions(asseessment_details):
     if (hasattr(asseessment_details, "questions")):
-        # if hasattr(asseessment_details.questions, '__len__') and (not isinstance(asseessment_details.questions, str)):
         return list(map(get_question_object, asseessment_details.questions))
     elif (hasattr(asseessment_details, "question")):
         return list(map(get_question_object, [asseessment_details.question]))
     return []
 
 
-def parse_completion_time(completion_time):
-    return completion_time
+def parse_completion_time(assessment_end):
+    if hasattr(assessment_end, "completion_time"):
+        print(assessment_end.completion_time.hours)
+        print(assessment_end.completion_time.minutes)
+        print(assessment_end.completion_time.seconds)
+        # TODO parse time here to miliseconds
+        # return assessment_end.completion_time
+    return None
 
 
 class SurveyScoring(object):
@@ -64,7 +83,6 @@ class SurveyScoring(object):
 
 class AssessmentDetails(object):
     def __init__(self, ):
-        self.questions = None
         self.default_points_per_question = None
         self.default_negative_points_per_question = None
         self.completion_time = None
@@ -80,12 +98,10 @@ class AssessmentDetails(object):
 
 def convert_assessment_details(assessment_details) -> AssessmentDetails:
     temp = AssessmentDetails()
-    temp.questions = convert_questions(assessment_details)
-    # TODO ne raditi sa maybe, puca, dodati hasattr
-    # if (assessment_details.type != "poll"):
-    #     temp.completion_time = parse_completion_time(
-    #         maybe(assessment_details.end).completion_time)
-    #     temp.can_skip_to_end = maybe(assessment_details.end).can_skip_to_end
+    if (assessment_details.type != "poll" and assessment_details.end):
+        temp.completion_time = parse_completion_time(
+            assessment_details.end)
+        temp.can_skip_to_end = assessment_details.end.can_skip_to_end
 
     if (assessment_details.type == "quiz" and assessment_details.pass_criteria):
         temp.default_points_per_question = assessment_details.default_points_per_question
@@ -101,18 +117,14 @@ def convert_assessment_details(assessment_details) -> AssessmentDetails:
     return temp
 
 
-class Test(object):
-    def __init__(self, text):
-
-        self.text = text
-
-
 class Assessment(object):
     def __init__(self, title: str, description: str, ask_for_personal_info: bool, assessment_details: AssessmentDetails):
+        print(assessment_details)
         self.title = title
         self.description = description
         self.ask_for_personal_info = ask_for_personal_info
         self.type = assessment_details.type
+        self.questions = convert_questions(assessment_details)
         self.assessment_details = convert_assessment_details(
             assessment_details)
 
