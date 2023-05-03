@@ -7,8 +7,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import Axios from "axios";
+import Results from "./pages/results/Results";
 
-//TODO
 Axios.defaults.baseURL = "http://127.0.0.1:8000";
 const router = createBrowserRouter([
   {
@@ -20,8 +20,8 @@ const router = createBrowserRouter([
     element: <Assessment />,
   },
   {
-    path: "assessment-end",
-    element: <Assessment />,
+    path: "assessment-results",
+    element: <Results />,
   },
 ]);
 

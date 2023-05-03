@@ -16,6 +16,7 @@
     </li>
     <li>Run application with "python main.py". It will create metamodel, generate dot files and run the server on http://127.0.0.1:8000.</li>
     <li>If you only want to create metamodel and dot files, run with "python main.py --run_server=false"</li>
+    <li>If you only want to create/test model, without running the fe application, run with "python main.py --assessment_file=[file from dot_examples of full path to your assessment]"</li>
     <li>Enter the folder with "cd ques-tech-fe" and run "npm run start" to start the React application.</li>
 </ol>
 <br/>

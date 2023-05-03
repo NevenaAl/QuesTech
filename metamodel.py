@@ -66,7 +66,7 @@ def pass_criteria_points_validator(quiz):
         has_points = True
     else:
         for question in quiz.questions:
-            if hasattr(question, "question_points") and question.question_points is not None:
+            if hasattr(question, "question_points") and question.question_points:
                 has_points = True
                 break
     if not has_points and hasattr(quiz, "pass_criteria") and hasattr(quiz.pass_criteria, "points_required"):

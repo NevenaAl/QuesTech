@@ -1,5 +1,18 @@
+class OpinionScale(object):
+    def __init__(self):
+        self.scale_start = None
+        self.scale_end = None
+        self.scale_start_label = None
+        self.scale_end_label = None
+        self.scale_options = None
 
-# TODO implement opinion scale
+
+class ScaleOption(object):
+    def __init__(self, value: float, label: str):
+        self.value = value
+        self.label = label
+
+
 class Answer(object):
     def __init__(self, text: str):
         self.text = text
@@ -17,13 +30,37 @@ class Question(object):
         self.max_rate = None
         self.accept_partial_answer = None
         self.question_points = None
+        self.scale = None
 
 
-class Scoring(object):
-    def __init__(self, range_start: int, range_end: int, result: float | str):
-        self.range_start = range_start
-        self.range_end = range_end
+class SurveyScoring(object):
+    def __init__(self, start, end, result):
+        self.start = start
+        self.end = end
         self.result = result
+
+
+class AssessmentDetails(object):
+    def __init__(self, ):
+        self.default_points_per_question = None
+        self.default_negative_points_per_question = None
+        self.completion_time = None
+        self.can_skip_to_end = None
+        self.percentage_required = None
+        self.num_of_correct_answers_required = None
+        self.points_required = None
+        self.scoring = None
+
+
+class Assessment(object):
+    def __init__(self, title: str, description: str, ask_for_personal_info: bool, assessment_details: AssessmentDetails):
+        self.title = title
+        self.description = description
+        self.ask_for_personal_info = ask_for_personal_info
+        self.type = assessment_details.type
+        self.questions = convert_questions(assessment_details)
+        self.assessment_details = convert_assessment_details(
+            assessment_details)
 
 
 def get_answer_object(answer):
@@ -50,6 +87,22 @@ def get_question_object(question):
         temp.max_rate = question.question_details.max_rate
     if hasattr(question.question_details, "accept_partial_answer"):
         temp.accept_partial_answer = question.question_details.accept_partial_answer
+    if hasattr(question.question_details, "scale") and question.question_details.scale:
+        temp.scale = get_scale_object(question.question_details.scale)
+    return temp
+
+
+def get_scale_object(scale):
+    temp = OpinionScale()
+    if hasattr(scale, "scale_options"):
+        temp.scale_options = []
+        for option in scale.scale_options:
+            temp.scale_options.append(ScaleOption(option.value, option.label))
+    else:
+        temp.scale_end = scale.scale_end
+        temp.scale_end_label = scale.scale_end_label
+        temp.scale_start = scale.scale_start
+        temp.scale_start_label = scale.scale_start_label
     return temp
 
 
@@ -62,38 +115,16 @@ def convert_questions(asseessment_details):
 
 
 def parse_completion_time(assessment_end):
-    if hasattr(assessment_end, "completion_time"):
-        print(assessment_end.completion_time.hours)
-        print(assessment_end.completion_time.minutes)
-        print(assessment_end.completion_time.seconds)
-        # TODO parse time here to miliseconds
-        # return assessment_end.completion_time
+    if hasattr(assessment_end, "completion_time") and assessment_end.completion_time:
+        miliseconds = 0
+        if assessment_end.completion_time.hours:
+            miliseconds += int(assessment_end.completion_time.hours.amount) * 360 * 1000
+        if assessment_end.completion_time.minutes:
+            miliseconds += int(assessment_end.completion_time.minutes.amount) * 60 * 1000
+        if assessment_end.completion_time.seconds:
+            miliseconds += int(assessment_end.completion_time.seconds.amount) * 1000
+        return miliseconds
     return None
-
-
-class SurveyScoring(object):
-    def __init__(self, start, end, result):
-        self.start = start
-        self.end = end
-        self.result = result
-
-    def __repr__(self):
-        return 'start: ' + str(self.start) + " end: " + str(self.end) + "\n"
-
-
-class AssessmentDetails(object):
-    def __init__(self, ):
-        self.default_points_per_question = None
-        self.default_negative_points_per_question = None
-        self.completion_time = None
-        self.can_skip_to_end = None
-        self.percentage_required = None
-        self.num_of_correct_answers_required = None
-        self.points_required = None
-        self.scoring = None
-
-    def __str__(self):
-        return f'Can skip: {self.can_skip_to_end}, default neg points: {self.default_negative_points_per_question}, Scoring:  {str(self.scoring)}'
 
 
 def convert_assessment_details(assessment_details) -> AssessmentDetails:
@@ -115,18 +146,3 @@ def convert_assessment_details(assessment_details) -> AssessmentDetails:
             scoring.range_start, scoring.range_end, scoring.result), assessment_details.scoring))
 
     return temp
-
-
-class Assessment(object):
-    def __init__(self, title: str, description: str, ask_for_personal_info: bool, assessment_details: AssessmentDetails):
-        print(assessment_details)
-        self.title = title
-        self.description = description
-        self.ask_for_personal_info = ask_for_personal_info
-        self.type = assessment_details.type
-        self.questions = convert_questions(assessment_details)
-        self.assessment_details = convert_assessment_details(
-            assessment_details)
-
-    # def __str__(self):
-    #     return "Title: " + self.title + ", description: " + self.description + "\nDetails:" + str(self.assessment_details)

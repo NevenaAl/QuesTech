@@ -8,14 +8,21 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { useState } from "react";
 import Question from "../question/Question";
 import styles from "./Quiz.module.css";
+import { useNavigate } from "react-router-dom";
 
 const Quiz = ({ questions }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
+
   const [activeQuestion, setActiveQuestion] = useState(0);
   const maxSteps = questions?.length;
 
   const handleNext = () => {
-    setActiveQuestion((prevactiveQuestion) => prevactiveQuestion + 1);
+    if (activeQuestion === maxSteps - 1) {
+      navigate("/assessment-results");
+    } else {
+      setActiveQuestion((prevactiveQuestion) => prevactiveQuestion + 1);
+    }
   };
 
   const handleBack = () => {
@@ -31,12 +38,8 @@ const Quiz = ({ questions }) => {
         position="static"
         activeStep={activeQuestion}
         nextButton={
-          <Button
-            size="small"
-            onClick={handleNext}
-            disabled={activeQuestion === maxSteps - 1}
-          >
-            Next
+          <Button size="small" onClick={handleNext}>
+            {activeQuestion === maxSteps - 1 ? "Submit" : "Next"}
             {theme.direction === "rtl" ? (
               <KeyboardArrowLeft />
             ) : (

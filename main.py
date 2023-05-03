@@ -69,7 +69,6 @@ def hello(assessment_file: str):
 @ click.command()
 @ click.option('--run_server', default="true", help="Option to not run server")
 @ click.option('--assessment_file', help="Full or relative path to the assessment file")
-# TODO testirati opciju da dodas assessment file
 def main(run_server, assessment_file):
     dot_folder = join(this_folder, 'dot_files')
     if not os.path.exists(dot_folder):
@@ -78,7 +77,7 @@ def main(run_server, assessment_file):
     (graph,) = pydot.graph_from_dot_file(join(dot_folder, 'grammar.dot'))
     graph.write_png(join(dot_folder, 'grammar.png'))
 
-    if assessment_file is not None:
+    if assessment_file:
         generate_model(assessment_file)
     elif run_server != "false":
         uvicorn.run("main:app", log_level="info")

@@ -129,8 +129,8 @@ const Question = ({ questionId, questionIndex, question }) => {
         {question.type === "opinion_scale" && (
           <FormControl>
             <RadioGroup onChange={onAnswerChange} row name="opinion_scale">
-              {question.scale_options
-                ? question.scale_options.map((scale_option, index) => {
+              {question.scale.scale_options
+                ? question.scale.scale_options.map((scale_option, index) => {
                     return (
                       <FormControlLabel
                         key={index}
@@ -144,10 +144,10 @@ const Question = ({ questionId, questionIndex, question }) => {
                 : (function (scales, start, end) {
                     for (let i = start; i <= end; i++) {
                       const label =
-                        i === question.scale_start
-                          ? question.scale_start_label
-                          : i === question.scale_end
-                          ? question.scale_end_label
+                        i === question.scale.scale_start
+                          ? question.scale.scale_start_label
+                          : i === question.scale.scale_end
+                          ? question.scale.scale_end_label
                           : "";
                       scales.push(
                         <FormControlLabel
@@ -160,7 +160,7 @@ const Question = ({ questionId, questionIndex, question }) => {
                       );
                     }
                     return scales;
-                  })([], question.scale_start, question.scale_end)}
+                  })([], question.scale.scale_start, question.scale.scale_end)}
             </RadioGroup>
           </FormControl>
         )}

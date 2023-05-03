@@ -4,8 +4,13 @@ import Button from "@mui/material/Button";
 import Question from "../question/Question";
 import styles from "./Survey.module.css";
 import { personalInfoQuestions } from "../../utils/constants";
+import { useNavigate } from "react-router-dom";
 
 const Survey = ({ askForPersonalInfo, questions }) => {
+  const navigate = useNavigate();
+  const handleSubmit = () => {
+    navigate("/assessment-results");
+  };
   return (
     <Box className={styles.survey_wrapper}>
       {/* //TODO render this in quiz somehow */}
@@ -23,7 +28,11 @@ const Survey = ({ askForPersonalInfo, questions }) => {
         </Box>
       ))}
       <Box className={styles.button_wrapper}>
-        <Button style={{ float: "right" }} variant="contained">
+        <Button
+          style={{ float: "right" }}
+          variant="contained"
+          onClick={handleSubmit}
+        >
           SUBMIT
         </Button>
       </Box>

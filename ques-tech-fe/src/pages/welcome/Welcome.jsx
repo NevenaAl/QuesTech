@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { setAssessmentData } from "../../redux/assessmentSlice";
 import { useDispatch } from "react-redux";
 import { loadAssessment } from "../../services/assessmentService";
+import { setAssessmentDataToLocalStorage } from "../../utils/assessmentUtil";
 
 const Welcome = () => {
   const [selectedExample, setSelectedExample] = useState("");
@@ -43,11 +44,10 @@ const Welcome = () => {
   }, [selectedExample]);
 
   const navigateToAssessment = () => {
-    //TODO
     loadAssessment(path)
       .then((resp) => {
         dispatch(setAssessmentData(resp.data));
-        console.log(resp.data);
+        setAssessmentDataToLocalStorage(resp.data);
         navigate("/assessment");
       })
       .catch((err) => {
