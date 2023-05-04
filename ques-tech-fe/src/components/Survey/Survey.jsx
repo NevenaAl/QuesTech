@@ -5,25 +5,53 @@ import Question from "../question/Question";
 import styles from "./Survey.module.css";
 import { personalInfoQuestions } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { Alert, Snackbar, Typography } from "@mui/material";
+import { validateRequiredQuestions } from "../../utils/assessmentUtil";
 
 const Survey = ({ askForPersonalInfo, questions }) => {
+  const answers = useSelector((state) => state.results.answers);
+  const results = useSelector((state) => state.results);
+  const [error, setError] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+
   const navigate = useNavigate();
+
   const handleSubmit = () => {
-    navigate("/assessment-results");
+    const surveyValid = validateRequiredQuestions(
+      answers,
+      questions,
+      askForPersonalInfo && results
+    );
+    if (surveyValid) {
+      navigate("/assessment-results");
+    } else {
+      setAlertOpen(true);
+      setError(true);
+    }
   };
+
   return (
     <Box className={styles.survey_wrapper}>
-      {/* //TODO render this in quiz somehow */}
       {askForPersonalInfo &&
         personalInfoQuestions.map((question, index) => (
           <Box key={index}>
-            <Question questionId={question.id} question={question} />
+            <Question
+              questionId={question.id}
+              question={question}
+              error={error && question.required && !results[question.id]}
+            />
             <hr style={{ opacity: 0.5 }}></hr>
           </Box>
         ))}
       {questions.map((question, index) => (
         <Box key={index}>
-          <Question questionIndex={index} question={question} />
+          <Question
+            questionIndex={index}
+            question={question}
+            error={error && question.required && answers[index] === undefined}
+          />
           <hr style={{ opacity: 0.5 }}></hr>
         </Box>
       ))}
@@ -36,6 +64,15 @@ const Survey = ({ askForPersonalInfo, questions }) => {
           SUBMIT
         </Button>
       </Box>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={4000}
+        onClose={() => setAlertOpen(false)}
+      >
+        <Alert severity="error" sx={{ width: "100%" }}>
+          Please answer all required questions.
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

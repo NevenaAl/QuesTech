@@ -48,5 +48,4 @@ questions:
         text: "How would you rate this survey?"
         type: rating
         max_rate: 5
-    
-
+ask_for_personal_info

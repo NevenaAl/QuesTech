@@ -21,13 +21,11 @@ Quiz:
 Survey:
     'type' ':' type='survey'
     'questions' ':' questions+=SurveyQuestion[/\s*/] 
-    (end=AssessmentEnd)? 
 ;
 
 ScoredSurvey:
-    'type' ':' type='scored_survey'
+    ('type' ':' type='scored_survey'
     'questions' ':' questions+=ScoredSurveyQuestion[/\s*/] 
-    ((end=AssessmentEnd)? 
     'scoring' ':' scoring+=SurveyScoring[/\s*/])#
 ;
 
@@ -153,7 +151,7 @@ RatingQuestion:
 ;
 
 Answer:
-    '-' ('[]' | ('[' (is_correct='x' | points=FLOAT) ']'))?  text=STRING
+    '-' ('[]' | ('[' (is_correct?='x' | points=FLOAT) ']'))?  text=STRING
 ;
 
 AssessmentEnd:

@@ -48,4 +48,3 @@ scoring:
         - 10-15: "Friendly"
         - 15-20: "Very friendly and outgoing"
         - 20-25: "Not friendly and likes to be alone"
-can_skip_to_end

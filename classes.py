@@ -14,10 +14,10 @@ class ScaleOption(object):
 
 
 class Answer(object):
-    def __init__(self, text: str):
+    def __init__(self, text: str, is_correct: bool = True, points: float = 0):
         self.text = text
-        self.is_correct = False
-        self.points = None
+        self.is_correct = is_correct
+        self.points = points
 
 
 class Question(object):
@@ -64,7 +64,7 @@ class Assessment(object):
 
 
 def get_answer_object(answer):
-    return Answer(str(answer)) if isinstance(answer, (float, str)) else Answer(answer.text)
+    return Answer(str(answer)) if isinstance(answer, (float, str)) else Answer(answer.text, answer.is_correct, answer.points)
 
 
 def convert_answers(question_details):
@@ -118,7 +118,8 @@ def parse_completion_time(assessment_end):
     if hasattr(assessment_end, "completion_time") and assessment_end.completion_time:
         miliseconds = 0
         if assessment_end.completion_time.hours:
-            miliseconds += int(assessment_end.completion_time.hours.amount) * 360 * 1000
+            miliseconds += int(assessment_end.completion_time.hours.amount) * \
+                3600 * 1000
         if assessment_end.completion_time.minutes:
             miliseconds += int(assessment_end.completion_time.minutes.amount) * 60 * 1000
         if assessment_end.completion_time.seconds:
@@ -129,17 +130,18 @@ def parse_completion_time(assessment_end):
 
 def convert_assessment_details(assessment_details) -> AssessmentDetails:
     temp = AssessmentDetails()
-    if (assessment_details.type != "poll" and assessment_details.end):
-        temp.completion_time = parse_completion_time(
-            assessment_details.end)
-        temp.can_skip_to_end = assessment_details.end.can_skip_to_end
 
-    if (assessment_details.type == "quiz" and assessment_details.pass_criteria):
+    if assessment_details.type == "quiz":
         temp.default_points_per_question = assessment_details.default_points_per_question
         temp.default_negative_points_per_question = assessment_details.default_negative_points_per_question
-        temp.percentage_required = assessment_details.pass_criteria.percentage_required
-        temp.num_of_correct_answers_required = assessment_details.pass_criteria.num_of_correct_answers_required
-        temp.points_required = assessment_details.pass_criteria.points_required
+        if assessment_details.pass_criteria:
+            temp.percentage_required = assessment_details.pass_criteria.percentage_required
+            temp.num_of_correct_answers_required = assessment_details.pass_criteria.num_of_correct_answers_required
+            temp.points_required = assessment_details.pass_criteria.points_required
+        if assessment_details.end:
+            temp.completion_time = parse_completion_time(
+                assessment_details.end)
+            temp.can_skip_to_end = assessment_details.end.can_skip_to_end
 
     if (assessment_details.type == "scored_survey"):
         temp.scoring = list(map(lambda scoring: SurveyScoring(

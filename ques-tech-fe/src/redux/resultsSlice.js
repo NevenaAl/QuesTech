@@ -3,6 +3,7 @@ export const resultsSlice = createSlice({
   name: "results",
   initialState: {
     answers: [],
+    correctAnswers: [],
     hasPassed: false,
     points: 0,
     fullName: "",
@@ -18,7 +19,6 @@ export const resultsSlice = createSlice({
         tempArray[payload.questionIndex] = payload.answer;
         state.answers = tempArray;
       }
-      console.log(state.answers, state.fullName);
     },
     setMultipleChoiceAnwser: (state, { payload }) => {
       let tempArray = [...state.answers];
@@ -38,9 +38,31 @@ export const resultsSlice = createSlice({
       }
       state.answers = tempArray;
     },
+    setCorrectAnswers: (state, { payload }) => {
+      const tempArray = [];
+      payload.questions.forEach((question, index) => {
+        if (question.answers.length > 0) {
+          question.answers.forEach((answer) => {
+            if (answer.is_correct) {
+              if (tempArray[index]) {
+                Array.isArray(tempArray[index])
+                  ? (tempArray[index] = [...tempArray[index], answer.text])
+                  : (tempArray[index] = [tempArray[index], answer.text]);
+              } else {
+                tempArray[index] = answer.text;
+              }
+            }
+          });
+        } else {
+          tempArray[index] = undefined;
+        }
+      });
+      state.correctAnswers = tempArray;
+    },
   },
 });
 
-export const { setAnwser, setMultipleChoiceAnwser } = resultsSlice.actions;
+export const { setAnwser, setMultipleChoiceAnwser, setCorrectAnswers } =
+  resultsSlice.actions;
 
 export default resultsSlice.reducer;

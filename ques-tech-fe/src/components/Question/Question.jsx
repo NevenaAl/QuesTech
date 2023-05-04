@@ -15,7 +15,7 @@ import {
 import { useDispatch } from "react-redux";
 import { setAnwser, setMultipleChoiceAnwser } from "../../redux/resultsSlice";
 
-const Question = ({ questionId, questionIndex, question }) => {
+const Question = ({ questionId, questionIndex, question, error }) => {
   const dispatch = useDispatch();
 
   const onAnswerChange = (e) => {
@@ -34,9 +34,11 @@ const Question = ({ questionId, questionIndex, question }) => {
           alignItems: "center",
           height: 50,
           pl: 2,
+          color: error ? "red" : "black",
+          background: "transparent",
         }}
       >
-        <Typography fontWeight={450}>
+        <Typography fontWeight={error ? 400 : 450}>
           {question.text} {question.required && "*"}
         </Typography>
       </Paper>
@@ -98,14 +100,18 @@ const Question = ({ questionId, questionIndex, question }) => {
           </FormControl>
         )}
         {question.type === "number" && (
-          <TextField onChange={onAnswerChange} type="number" />
+          <TextField
+            onChange={onAnswerChange}
+            type="number"
+            style={{ background: "white" }}
+          />
         )}
         {/* TODO maybe add another type for one line words which has correct answer */}
         {question.type === "open_ended" && (
           <TextareaAutosize
             onChange={onAnswerChange}
             minRows={10}
-            style={{ width: "90%" }}
+            style={{ width: "90%", background: "white" }}
           />
         )}
         {question.type === "true_false" && (
@@ -170,6 +176,7 @@ const Question = ({ questionId, questionIndex, question }) => {
             precision={0.5}
             max={question.maxRate}
             onChange={onAnswerChange}
+            size="large"
           />
         )}
       </Box>
