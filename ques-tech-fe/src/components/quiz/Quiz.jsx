@@ -5,12 +5,12 @@ import MobileStepper from "@mui/material/MobileStepper";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import { useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import Question from "../question/Question";
 import styles from "./Quiz.module.css";
 import { useNavigate } from "react-router-dom";
 import { personalInfoQuestions } from "../../utils/constants";
-import { Alert, Snackbar, Typography } from "@mui/material";
+import { Alert, Snackbar, Tooltip, Typography } from "@mui/material";
 import {
   getFormattedTime,
   validateRequiredQuestions,
@@ -23,20 +23,47 @@ const Quiz = ({
   questions,
   askForPersonalInfo,
   completionTime,
+  canSkipToEnd,
 }) => {
   const answers = useSelector((state) => state.results.answers);
   const results = useSelector((state) => state.results);
-  const [error, setError] = useState(false);
-  const [alertOpen, setAlertOpen] = useState(false);
   const theme = useTheme();
   const navigate = useNavigate();
-  const [showIntroduction, setShowIntroduction] = useState(true);
-  const [activeQuestion, setActiveQuestion] = useState(0);
   const maxSteps = questions?.length;
+
+  const [error, setError] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [quizStarted, setQuizStarted] = useState(false);
+  const [activeQuestion, setActiveQuestion] = useState(0);
+  const [formattedTime, setFormattedTime] = useState(
+    getFormattedTime(completionTime)
+  );
+  const [remainingSeconds, setRemainingSeconds] = useState(completionTime);
+
+  useEffect(() => {
+    let timer;
+    if (quizStarted) {
+      if (!timer && remainingSeconds > 0) {
+        timer = setTimeout(countDown, 1000);
+      }
+    }
+    if (remainingSeconds === 0) {
+      handleFinish();
+    }
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [quizStarted, remainingSeconds]);
+
+  const countDown = () => {
+    let seconds = remainingSeconds - 1;
+    setRemainingSeconds((prevState) => prevState - 1);
+    setFormattedTime(getFormattedTime(seconds));
+  };
 
   const handleNext = () => {
     if (activeQuestion === maxSteps - 1) {
-      navigate("/assessment-results");
+      handleFinish();
     } else {
       setActiveQuestion((prevactiveQuestion) => prevactiveQuestion + 1);
     }
@@ -53,22 +80,26 @@ const Quiz = ({
       askForPersonalInfo && results
     );
     if (quizValid) {
-      setShowIntroduction(false);
+      setQuizStarted(true);
     } else {
       setAlertOpen(true);
       setError(true);
     }
   };
 
+  const handleFinish = () => {
+    navigate("/assessment-results");
+  };
+
   return (
     <Box
       className={
-        (showIntroduction ? "" : styles.quiz_stepper_wrapper) +
+        (quizStarted ? styles.quiz_stepper_wrapper : "") +
         " " +
         styles.quiz_wrapper
       }
     >
-      {showIntroduction ? (
+      {!quizStarted ? (
         <>
           <Typography
             textAlign={"center"}
@@ -78,7 +109,7 @@ const Quiz = ({
           >
             {title}
           </Typography>
-          {description !== "" ? (
+          {description !== "" && (
             <Typography
               textAlign={"center"}
               marginTop={"30px"}
@@ -87,13 +118,12 @@ const Quiz = ({
             >
               {description}
             </Typography>
-          ) : null}
-          {completionTime ? (
+          )}
+          {completionTime && (
             <Typography textAlign={"center"} marginTop={"30px"}>
-              * You will have <b>{getFormattedTime(completionTime)}</b> to
-              finish this quiz. *
+              * You will have <b>{formattedTime}</b> to finish this quiz. *
             </Typography>
-          ) : null}
+          )}
           {askForPersonalInfo &&
             personalInfoQuestions.map((question, index) => (
               <Box key={index}>
@@ -127,6 +157,29 @@ const Quiz = ({
         </>
       ) : (
         <>
+          {completionTime && (
+            <Typography
+              textAlign={"center"}
+              fontSize={20}
+              style={{ position: "absolute", right: 30, top: 20 }}
+            >
+              <b>{formattedTime}</b>
+            </Typography>
+          )}
+          {canSkipToEnd && (
+            <Tooltip
+              placement="top-start"
+              title="Skip all the questions and proceed to results."
+            >
+              <Button
+                variant="contained"
+                style={{ position: "absolute", right: 30, bottom: 30 }}
+                onClick={handleFinish}
+              >
+                Finish Quiz
+              </Button>
+            </Tooltip>
+          )}
           <Question
             question={questions[activeQuestion]}
             questionIndex={activeQuestion}

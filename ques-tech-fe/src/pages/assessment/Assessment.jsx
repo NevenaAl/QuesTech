@@ -22,11 +22,10 @@ const Assessment = () => {
         dispatch(setCorrectAnswers({ questions: assessmentData.questions }));
       }
     }
-  }, [assessmentData]);
+  }, [assessmentData, dispatch]);
 
   // TODO add can skip to end option
-  // TODO add timer
-  console.log(assessmentData);
+
   return assessmentData ? (
     assessmentData.type === "quiz" ? (
       <Quiz
@@ -35,6 +34,7 @@ const Assessment = () => {
         askForPersonalInfo={assessmentData.ask_for_personal_info}
         questions={assessmentData.questions}
         completionTime={assessmentData.assessment_details.completion_time}
+        canSkipToEnd={assessmentData.assessment_details.can_skip_to_end}
       ></Quiz>
     ) : (
       <>

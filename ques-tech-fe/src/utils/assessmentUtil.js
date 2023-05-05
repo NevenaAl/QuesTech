@@ -32,8 +32,7 @@ const padTo2Digits = (num) => {
   return num.toString().padStart(2, "0");
 };
 
-export const getFormattedTime = (milliseconds) => {
-  let seconds = Math.floor(milliseconds / 1000);
+export const getFormattedTime = (seconds) => {
   let minutes = Math.floor(seconds / 60);
   let hours = Math.floor(minutes / 60);
 

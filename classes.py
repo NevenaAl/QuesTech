@@ -116,15 +116,14 @@ def convert_questions(asseessment_details):
 
 def parse_completion_time(assessment_end):
     if hasattr(assessment_end, "completion_time") and assessment_end.completion_time:
-        miliseconds = 0
+        seconds = 0
         if assessment_end.completion_time.hours:
-            miliseconds += int(assessment_end.completion_time.hours.amount) * \
-                3600 * 1000
+            seconds += int(assessment_end.completion_time.hours.amount) * 3600
         if assessment_end.completion_time.minutes:
-            miliseconds += int(assessment_end.completion_time.minutes.amount) * 60 * 1000
+            seconds += int(assessment_end.completion_time.minutes.amount) * 60
         if assessment_end.completion_time.seconds:
-            miliseconds += int(assessment_end.completion_time.seconds.amount) * 1000
-        return miliseconds
+            seconds += int(assessment_end.completion_time.seconds.amount)
+        return seconds
     return None
 
 
