@@ -1,10 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { PASS_CRITERIA_UNIT } from "../utils/constants";
+import {
+  calculateNumOfCorrectAnswers,
+  calculatePoints,
+} from "../utils/assessmentUtil";
 export const resultsSlice = createSlice({
   name: "results",
   initialState: {
     answers: [],
     correctAnswers: [],
     hasPassed: false,
+    score: 0,
+    passCriteria: 0,
+    passCriteriaUnit: "",
     points: 0,
     fullName: "",
     age: 0,
@@ -59,10 +67,50 @@ export const resultsSlice = createSlice({
       });
       state.correctAnswers = tempArray;
     },
+    setPassCriteria: (state, { payload }) => {
+      const { assessmentDetails } = payload;
+      if (assessmentDetails.percentage_required) {
+        state.passCriteria = assessmentDetails.percentage_required;
+        state.passCriteriaUnit = PASS_CRITERIA_UNIT.PERCENTAGE;
+      } else if (assessmentDetails.points_required) {
+        state.passCriteria = assessmentDetails.points_required;
+        state.passCriteriaUnit = PASS_CRITERIA_UNIT.POINTS;
+      } else {
+        state.passCriteria = assessmentDetails.num_of_correct_answers_required;
+        state.passCriteriaUnit = PASS_CRITERIA_UNIT.NUM_OF_QUESTIONS;
+      }
+    },
+    calculateResults: (state, { payload }) => {
+      const numOfCorrectAnswers = calculateNumOfCorrectAnswers(
+        state.answers,
+        state.correctAnswers
+      );
+      if (state.passCriteriaUnit === PASS_CRITERIA_UNIT.PERCENTAGE) {
+        state.score = (numOfCorrectAnswers / state.answers.length) * 100;
+      } else if (state.passCriteriaUnit === PASS_CRITERIA_UNIT.POINTS) {
+        state.score = calculatePoints(
+          state.answers,
+          state.correctAnswers,
+          payload.questions
+        );
+      } else if (
+        state.passCriteriaUnit === PASS_CRITERIA_UNIT.NUM_OF_QUESTIONS
+      ) {
+        state.score = numOfCorrectAnswers;
+      }
+      if (state.score >= state.passCriteria) {
+        state.hasPassed = true;
+      }
+    },
   },
 });
 
-export const { setAnwser, setMultipleChoiceAnwser, setCorrectAnswers } =
-  resultsSlice.actions;
+export const {
+  setAnwser,
+  setMultipleChoiceAnwser,
+  setCorrectAnswers,
+  setPassCriteria,
+  calculateResults,
+} = resultsSlice.actions;
 
 export default resultsSlice.reducer;

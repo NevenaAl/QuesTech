@@ -15,7 +15,8 @@ import {
   getFormattedTime,
   validateRequiredQuestions,
 } from "../../utils/assessmentUtil";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { calculateResults } from "../../redux/resultsSlice";
 
 const Quiz = ({
   title,
@@ -29,6 +30,7 @@ const Quiz = ({
   const results = useSelector((state) => state.results);
   const theme = useTheme();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const maxSteps = questions?.length;
 
   const [error, setError] = useState(false);
@@ -88,6 +90,7 @@ const Quiz = ({
   };
 
   const handleFinish = () => {
+    dispatch(calculateResults({ questions }));
     navigate("/assessment-results");
   };
 

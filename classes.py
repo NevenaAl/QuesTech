@@ -29,7 +29,8 @@ class Question(object):
         self.subtype = None
         self.max_rate = None
         self.accept_partial_answer = None
-        self.question_points = None
+        self.positive_points = None
+        self.negative_points = None
         self.scale = None
 
 
@@ -42,8 +43,6 @@ class SurveyScoring(object):
 
 class AssessmentDetails(object):
     def __init__(self, ):
-        self.default_points_per_question = None
-        self.default_negative_points_per_question = None
         self.completion_time = None
         self.can_skip_to_end = None
         self.percentage_required = None
@@ -89,6 +88,14 @@ def get_question_object(question):
         temp.accept_partial_answer = question.question_details.accept_partial_answer
     if hasattr(question.question_details, "scale") and question.question_details.scale:
         temp.scale = get_scale_object(question.question_details.scale)
+    if hasattr(question, "question_points") and question.question_points:
+        # TODO ovde upisati default poene ako nema svoje, ne slati ih na fe
+
+        # temp.default_points_per_question = assessment_details.default_points_per_question
+        # temp.default_negative_points_per_question = assessment_details.default_negative_points_per_question
+
+        temp.positive_points = question.question_points.positive
+        temp.negative_points = question.question_points.negative
     return temp
 
 
@@ -131,8 +138,6 @@ def convert_assessment_details(assessment_details) -> AssessmentDetails:
     temp = AssessmentDetails()
 
     if assessment_details.type == "quiz":
-        temp.default_points_per_question = assessment_details.default_points_per_question
-        temp.default_negative_points_per_question = assessment_details.default_negative_points_per_question
         if assessment_details.pass_criteria:
             temp.percentage_required = assessment_details.pass_criteria.percentage_required
             temp.num_of_correct_answers_required = assessment_details.pass_criteria.num_of_correct_answers_required

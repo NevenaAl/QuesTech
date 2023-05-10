@@ -45,3 +45,75 @@ export const getFormattedTime = (seconds) => {
     seconds
   )}`;
 };
+
+export const calculateNumOfCorrectAnswers = (answers, correctAnswers) => {
+  let count = 0;
+  answers.forEach((answer, index) => {
+    if (
+      answer === correctAnswers[index] ||
+      compareAnswers(answer, correctAnswers[index]) ||
+      parseFloat(answer) === parseFloat(correctAnswers[index])
+    ) {
+      count++;
+    }
+  });
+  return count;
+};
+
+export const calculatePoints = (answers, correctAnswers, questions) => {
+  let points = 0;
+  answers.forEach((answer, index) => {
+    if (
+      answer === correctAnswers[index] ||
+      compareAnswers(answer, correctAnswers[index]) ||
+      parseFloat(answer) ===
+        parseFloat(
+          typeof correctAnswers[index] === "string" && correctAnswers[index]
+        )
+    ) {
+      points += questions[index].positive_points;
+    } else if (questions[index].accept_partial_answer) {
+      points += getPartialPoints(
+        answer,
+        correctAnswers[index],
+        questions[index].positive_points
+      );
+    } else {
+      points -= questions[index].negative_points;
+    }
+  });
+  console.log(points);
+  return points;
+};
+
+const compareAnswers = (answers, correctAnswers) => {
+  if (Array.isArray(answers) && Array.isArray(correctAnswers)) {
+    const answerSorted = answers.slice().sort();
+    const isCorrect =
+      correctAnswers.length === answers.length &&
+      correctAnswers
+        .slice()
+        .sort()
+        .every((value, index) => {
+          return value === answerSorted[index];
+        });
+    return isCorrect;
+  }
+  return false;
+};
+
+const getPartialPoints = (answers, correctAnswers, points) => {
+  let score = 0;
+  if (Array.isArray(correctAnswers)) {
+    const pointsPerQuestion = points / correctAnswers.length;
+    correctAnswers.forEach((correctAnswer, index) => {
+      if (
+        answers === correctAnswer ||
+        answers.find((answer) => answer === correctAnswer)
+      ) {
+        score += pointsPerQuestion;
+      }
+    });
+  }
+  return score;
+};

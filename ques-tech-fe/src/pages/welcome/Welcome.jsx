@@ -15,7 +15,7 @@ import { setAssessmentData } from "../../redux/assessmentSlice";
 import { useDispatch } from "react-redux";
 import { loadAssessment } from "../../services/assessmentService";
 import { setAssessmentDataToLocalStorage } from "../../utils/assessmentUtil";
-import { setCorrectAnswers } from "../../redux/resultsSlice";
+import { setCorrectAnswers, setPassCriteria } from "../../redux/resultsSlice";
 
 const Welcome = () => {
   const [selectedExample, setSelectedExample] = useState("");
@@ -50,6 +50,11 @@ const Welcome = () => {
         dispatch(setAssessmentData(resp.data));
         if (resp.data.type === "quiz") {
           dispatch(setCorrectAnswers({ questions: resp.data.questions }));
+          dispatch(
+            setPassCriteria({
+              assessmentDetails: resp.data.assessment_details,
+            })
+          );
         }
         setAssessmentDataToLocalStorage(resp.data);
         navigate("/assessment");

@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { setAssessmentData } from "../../redux/assessmentSlice";
 import { getAssessmentDataFromLocalStorage } from "../../utils/assessmentUtil";
 import { Box, CircularProgress, Typography } from "@mui/material";
-import { setCorrectAnswers } from "../../redux/resultsSlice";
+import { setCorrectAnswers, setPassCriteria } from "../../redux/resultsSlice";
 
 const Assessment = () => {
   const dispatch = useDispatch();
@@ -20,6 +20,11 @@ const Assessment = () => {
       dispatch(setAssessmentData(assessmentData));
       if (assessmentData.type === "quiz") {
         dispatch(setCorrectAnswers({ questions: assessmentData.questions }));
+        dispatch(
+          setPassCriteria({
+            assessmentDetails: assessmentData.assessment_details,
+          })
+        );
       }
     }
   }, [assessmentData, dispatch]);

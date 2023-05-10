@@ -17,3 +17,9 @@ export const personalInfoQuestions = [
     id: "email",
   },
 ];
+
+export const PASS_CRITERIA_UNIT = {
+  POINTS: "points",
+  PERCENTAGE: "percentage",
+  NUM_OF_QUESTIONS: "numOfQuestions",
+};
