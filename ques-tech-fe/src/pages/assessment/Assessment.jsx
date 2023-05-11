@@ -4,8 +4,12 @@ import Survey from "../../components/survey/Survey";
 import { useEffect } from "react";
 import { setAssessmentData } from "../../redux/assessmentSlice";
 import { getAssessmentDataFromLocalStorage } from "../../utils/assessmentUtil";
-import { Box, CircularProgress, Typography } from "@mui/material";
-import { setCorrectAnswers, setPassCriteria } from "../../redux/resultsSlice";
+import { CircularProgress, Typography } from "@mui/material";
+import {
+  setCorrectAnswers,
+  setPassCriteria,
+  setSurveyScoring,
+} from "../../redux/resultsSlice";
 
 const Assessment = () => {
   const dispatch = useDispatch();
@@ -26,10 +30,11 @@ const Assessment = () => {
           })
         );
       }
+      if (assessmentData.type === "scored_survey") {
+        dispatch(setSurveyScoring(assessmentData.assessment_details.scoring));
+      }
     }
   }, [assessmentData, dispatch]);
-
-  // TODO add can skip to end option
 
   return assessmentData ? (
     assessmentData.type === "quiz" ? (
@@ -60,6 +65,7 @@ const Assessment = () => {
           {assessmentData.description}
         </Typography>
         <Survey
+          assessmentType={assessmentData.type}
           askForPersonalInfo={assessmentData.ask_for_personal_info}
           questions={assessmentData.questions}
         />

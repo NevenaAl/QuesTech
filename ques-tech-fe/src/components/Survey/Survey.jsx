@@ -5,18 +5,20 @@ import Question from "../question/Question";
 import styles from "./Survey.module.css";
 import { personalInfoQuestions } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { Alert, Snackbar, Typography } from "@mui/material";
 import { validateRequiredQuestions } from "../../utils/assessmentUtil";
+import { calculateScoredSurveyResults } from "../../redux/resultsSlice";
 
-const Survey = ({ askForPersonalInfo, questions }) => {
+const Survey = ({ assessmentType, askForPersonalInfo, questions }) => {
   const answers = useSelector((state) => state.results.answers);
   const results = useSelector((state) => state.results);
   const [error, setError] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = () => {
     const surveyValid = validateRequiredQuestions(
@@ -25,6 +27,9 @@ const Survey = ({ askForPersonalInfo, questions }) => {
       askForPersonalInfo && results
     );
     if (surveyValid) {
+      if (assessmentType === "scored_survey") {
+        dispatch(calculateScoredSurveyResults({ questions }));
+      }
       navigate("/assessment-results");
     } else {
       setAlertOpen(true);

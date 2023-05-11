@@ -106,7 +106,6 @@ const Question = ({ questionId, questionIndex, question, error }) => {
             style={{ background: "white" }}
           />
         )}
-        {/* TODO maybe add another type for one line words which has correct answer */}
         {question.type === "open_ended" && (
           <TextareaAutosize
             onChange={onAnswerChange}

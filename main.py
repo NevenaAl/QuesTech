@@ -29,8 +29,6 @@ assessment_mm = get_assessment_mm(this_folder)
 
 def generate_model(assessment_file: str):
     try:
-        # assessment: Assessment = assessment_mm.model_from_file(
-        #     join(abspath(this_folder), assessment_file))
         assessment = assessment_mm.model_from_file(
             join(abspath(this_folder), "examples", assessment_file))
     except FileNotFoundError:

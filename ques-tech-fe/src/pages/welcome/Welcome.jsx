@@ -15,7 +15,11 @@ import { setAssessmentData } from "../../redux/assessmentSlice";
 import { useDispatch } from "react-redux";
 import { loadAssessment } from "../../services/assessmentService";
 import { setAssessmentDataToLocalStorage } from "../../utils/assessmentUtil";
-import { setCorrectAnswers, setPassCriteria } from "../../redux/resultsSlice";
+import {
+  setCorrectAnswers,
+  setPassCriteria,
+  setSurveyScoring,
+} from "../../redux/resultsSlice";
 
 const Welcome = () => {
   const [selectedExample, setSelectedExample] = useState("");
@@ -56,7 +60,11 @@ const Welcome = () => {
             })
           );
         }
+        if (resp.data.type === "scored_survey") {
+          dispatch(setSurveyScoring(resp.data.assessment_details.scoring));
+        }
         setAssessmentDataToLocalStorage(resp.data);
+        console.log(resp.data);
         navigate("/assessment");
       })
       .catch((err) => {

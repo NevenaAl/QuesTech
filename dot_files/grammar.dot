@@ -11,117 +11,117 @@
     edge[dir=black,arrowtail=empty]
 
 
-2752486397776[ label="{Assessment|title: STRING\ldescription: STRING\lask_for_personal_info: optional\<BOOL\>\l}"]
+2270440142032[ label="{Assessment|title: STRING\ldescription: STRING\lask_for_personal_info: optional\<BOOL\>\l}"]
 
-2752486384112[ label="{*AssessmentType|}"]
+2270440135200[ label="{*AssessmentType|}"]
 
-2752486368496[ label="{Quiz|type: STRING\ldefault_points_per_question: FLOAT\ldefault_negative_points_per_question: FLOAT\l}"]
+2270440146912[ label="{Quiz|type: STRING\ldefault_points_per_question: FLOAT\ldefault_negative_points_per_question: FLOAT\l}"]
 
-2752486398752[ label="{Survey|type: STRING\l}"]
+2270440137152[ label="{Survey|type: STRING\l}"]
 
-2752486378256[ label="{ScoredSurvey|type: STRING\l}"]
+2270440143984[ label="{ScoredSurvey|type: STRING\l}"]
 
-2752486392896[ label="{Poll|type: STRING\l}"]
+2270440160576[ label="{Poll|type: STRING\l}"]
 
-2752486385088[ label="{SurveyScoring|range_start: INT\lrange_end: INT\lresult: ScoredSurveyResultType\l}"]
+2270440140080[ label="{SurveyScoring|range_start: INT\lrange_end: INT\lresult: ScoredSurveyResultType\l}"]
 
-2752486380208[ label="{PollQuestion|text: STRING\l}"]
+2270440164480[ label="{PollQuestion|text: STRING\l}"]
 
-2752486399728[ label="{SurveyQuestion|text: STRING\lrequired: optional\<BOOL\>\l}"]
+2270440141056[ label="{SurveyQuestion|text: STRING\lrequired: optional\<BOOL\>\l}"]
 
-2752486371424[ label="{QuizQuestion|text: STRING\l}"]
+2270440154720[ label="{QuizQuestion|text: STRING\l}"]
 
-2752486387040[ label="{ScoredSurveyQuestion|text: STRING\lrequired: optional\<BOOL\>\l}"]
+2270440144960[ label="{ScoredSurveyQuestion|text: STRING\lrequired: optional\<BOOL\>\l}"]
 
-2752486389968[ label="{*SurveyQuestionType|}"]
+2270440149840[ label="{*SurveyQuestionType|}"]
 
-2752486382160[ label="{*QuizQuestionType|}"]
+2270440157648[ label="{*QuizQuestionType|}"]
 
-2752486388016[ label="{*PollQuestionType|}"]
+2270440167408[ label="{*PollQuestionType|}"]
 
-2752486388992[ label="{QuizPassCriteria|percentage_required: FLOAT\lnum_of_correct_answers_required: INT\lpoints_required: FLOAT\l}"]
+2270440168384[ label="{QuizPassCriteria|percentage_required: FLOAT\lnum_of_correct_answers_required: INT\lpoints_required: FLOAT\l}"]
 
-2752486415344[ label="{QuestionPoints|positive: FLOAT\lnegative: FLOAT\l}"]
+2270440169360[ label="{QuestionPoints|positive: FLOAT\lnegative: FLOAT\l}"]
 
-2752486402656[ label="{OpenEndedQuestion|type: STRING\l}"]
+2270440138128[ label="{OpenEndedQuestion|type: STRING\l}"]
 
-2752486401680[ label="{TrueFalseQuestion|type: STRING\lcorrect_answer: TrueFalseAnswer\lsubtype: TrueFalseSubtype\l}"]
+2270440179120[ label="{TrueFalseQuestion|type: STRING\lcorrect_answer: TrueFalseAnswer\lsubtype: TrueFalseSubtype\l}"]
 
-2752486417296[ label="{SingleChoiceQuestion|type: STRING\l}"]
+2270440194736[ label="{SingleChoiceQuestion|type: STRING\l}"]
 
-2752486408512[ label="{MultipleChoiceQuestion|type: STRING\laccept_partial_answer: optional\<BOOL\>\l}"]
+2270440182048[ label="{MultipleChoiceQuestion|type: STRING\laccept_partial_answer: optional\<BOOL\>\l}"]
 
-2752486409488[ label="{NumberQuestion|type: STRING\lcorrect_answer: FLOAT\l}"]
+2270440186928[ label="{NumberQuestion|type: STRING\lcorrect_answer: FLOAT\l}"]
 
-2752486411440[ label="{OpinionScaleQuestion|type: STRING\l}"]
+2270440174240[ label="{OpinionScaleQuestion|type: STRING\l}"]
 
-2752486413392[ label="{*ScaleType|}"]
+2270440191808[ label="{*ScaleType|}"]
 
-2752486419248[ label="{RangeScale|scale_start: INT\lscale_end: INT\lscale_start_label: STRING\lscale_end_label: STRING\l}"]
+2270440196688[ label="{RangeScale|scale_start: INT\lscale_end: INT\lscale_start_label: STRING\lscale_end_label: STRING\l}"]
 
-2752486420224[ label="{CustomScale|}"]
+2270440175216[ label="{CustomScale|}"]
 
-2752486427056[ label="{ScaleOption|value: INT\llabel: STRING\l}"]
+2270440187904[ label="{ScaleOption|value: INT\llabel: STRING\l}"]
 
-2752486424128[ label="{RatingQuestion|type: STRING\lmax_rate: INT\l}"]
+2270440189856[ label="{RatingQuestion|type: STRING\lmax_rate: INT\l}"]
 
-2752486428032[ label="{Answer|is_correct: optional\<BOOL\>\lpoints: FLOAT\ltext: STRING\l}"]
+2270440177168[ label="{Answer|is_correct: optional\<BOOL\>\lpoints: FLOAT\ltext: STRING\l}"]
 
-2752486396800[ label="{AssessmentEnd|can_skip_to_end: optional\<BOOL\>\l}"]
+2270440200592[ label="{AssessmentEnd|can_skip_to_end: optional\<BOOL\>\l}"]
 
-2752486443648[ label="{TimeHours|amount: MyInt\l}"]
+2270440210352[ label="{TimeHours|amount: MyInt\l}"]
 
-2752486452432[ label="{TimeMinutes|amount: MyInt\l}"]
+2270440228896[ label="{TimeMinutes|amount: MyInt\l}"]
 
-2752486455360[ label="{TimeSeconds|amount: MyInt\l}"]
+2270440203520[ label="{TimeSeconds|amount: MyInt\l}"]
 
-2752486440720[ label="{Time|}"]
+2270440222064[ label="{Time|}"]
 
 
 
-2752486397776 -> 2752486384112[arrowtail=diamond, dir=both, headlabel="assessment_details "]
-2752486384112 -> 2752486368496 [dir=back]
-2752486384112 -> 2752486398752 [dir=back]
-2752486384112 -> 2752486378256 [dir=back]
-2752486384112 -> 2752486392896 [dir=back]
-2752486368496 -> 2752486371424[arrowtail=diamond, dir=both, headlabel="questions 1..*"]
-2752486368496 -> 2752486396800[arrowtail=diamond, dir=both, headlabel="end "]
-2752486368496 -> 2752486388992[arrowtail=diamond, dir=both, headlabel="pass_criteria "]
-2752486398752 -> 2752486399728[arrowtail=diamond, dir=both, headlabel="questions 1..*"]
-2752486378256 -> 2752486387040[arrowtail=diamond, dir=both, headlabel="questions 1..*"]
-2752486378256 -> 2752486385088[arrowtail=diamond, dir=both, headlabel="scoring 1..*"]
-2752486392896 -> 2752486380208[arrowtail=diamond, dir=both, headlabel="question "]
-2752486380208 -> 2752486388016[arrowtail=diamond, dir=both, headlabel="question_details "]
-2752486399728 -> 2752486389968[arrowtail=diamond, dir=both, headlabel="question_details "]
-2752486371424 -> 2752486382160[arrowtail=diamond, dir=both, headlabel="question_details "]
-2752486371424 -> 2752486415344[arrowtail=diamond, dir=both, headlabel="question_points "]
-2752486387040 -> 2752486417296[arrowtail=diamond, dir=both, headlabel="question_details "]
-2752486389968 -> 2752486402656 [dir=back]
-2752486389968 -> 2752486417296 [dir=back]
-2752486389968 -> 2752486408512 [dir=back]
-2752486389968 -> 2752486401680 [dir=back]
-2752486389968 -> 2752486409488 [dir=back]
-2752486389968 -> 2752486411440 [dir=back]
-2752486389968 -> 2752486424128 [dir=back]
-2752486382160 -> 2752486402656 [dir=back]
-2752486382160 -> 2752486417296 [dir=back]
-2752486382160 -> 2752486408512 [dir=back]
-2752486382160 -> 2752486401680 [dir=back]
-2752486382160 -> 2752486409488 [dir=back]
-2752486388016 -> 2752486417296 [dir=back]
-2752486388016 -> 2752486401680 [dir=back]
-2752486388016 -> 2752486424128 [dir=back]
-2752486388016 -> 2752486411440 [dir=back]
-2752486417296 -> 2752486428032[arrowtail=diamond, dir=both, headlabel="answers 1..*"]
-2752486408512 -> 2752486428032[arrowtail=diamond, dir=both, headlabel="answers 1..*"]
-2752486411440 -> 2752486413392[arrowtail=diamond, dir=both, headlabel="scale "]
-2752486413392 -> 2752486419248 [dir=back]
-2752486413392 -> 2752486420224 [dir=back]
-2752486420224 -> 2752486427056[arrowtail=diamond, dir=both, headlabel="scale_options 1..*"]
-2752486396800 -> 2752486440720[arrowtail=diamond, dir=both, headlabel="completion_time "]
-2752486440720 -> 2752486443648[arrowtail=diamond, dir=both, headlabel="hours "]
-2752486440720 -> 2752486452432[arrowtail=diamond, dir=both, headlabel="minutes "]
-2752486440720 -> 2752486455360[arrowtail=diamond, dir=both, headlabel="seconds "]
+2270440142032 -> 2270440135200[arrowtail=diamond, dir=both, headlabel="assessment_details "]
+2270440135200 -> 2270440146912 [dir=back]
+2270440135200 -> 2270440137152 [dir=back]
+2270440135200 -> 2270440143984 [dir=back]
+2270440135200 -> 2270440160576 [dir=back]
+2270440146912 -> 2270440154720[arrowtail=diamond, dir=both, headlabel="questions 1..*"]
+2270440146912 -> 2270440200592[arrowtail=diamond, dir=both, headlabel="end "]
+2270440146912 -> 2270440168384[arrowtail=diamond, dir=both, headlabel="pass_criteria "]
+2270440137152 -> 2270440141056[arrowtail=diamond, dir=both, headlabel="questions 1..*"]
+2270440143984 -> 2270440144960[arrowtail=diamond, dir=both, headlabel="questions 1..*"]
+2270440143984 -> 2270440140080[arrowtail=diamond, dir=both, headlabel="scoring 1..*"]
+2270440160576 -> 2270440164480[arrowtail=diamond, dir=both, headlabel="question "]
+2270440164480 -> 2270440167408[arrowtail=diamond, dir=both, headlabel="question_details "]
+2270440141056 -> 2270440149840[arrowtail=diamond, dir=both, headlabel="question_details "]
+2270440154720 -> 2270440157648[arrowtail=diamond, dir=both, headlabel="question_details "]
+2270440154720 -> 2270440169360[arrowtail=diamond, dir=both, headlabel="question_points "]
+2270440144960 -> 2270440194736[arrowtail=diamond, dir=both, headlabel="question_details "]
+2270440149840 -> 2270440138128 [dir=back]
+2270440149840 -> 2270440194736 [dir=back]
+2270440149840 -> 2270440182048 [dir=back]
+2270440149840 -> 2270440179120 [dir=back]
+2270440149840 -> 2270440186928 [dir=back]
+2270440149840 -> 2270440174240 [dir=back]
+2270440149840 -> 2270440189856 [dir=back]
+2270440157648 -> 2270440138128 [dir=back]
+2270440157648 -> 2270440194736 [dir=back]
+2270440157648 -> 2270440182048 [dir=back]
+2270440157648 -> 2270440179120 [dir=back]
+2270440157648 -> 2270440186928 [dir=back]
+2270440167408 -> 2270440194736 [dir=back]
+2270440167408 -> 2270440179120 [dir=back]
+2270440167408 -> 2270440189856 [dir=back]
+2270440167408 -> 2270440174240 [dir=back]
+2270440194736 -> 2270440177168[arrowtail=diamond, dir=both, headlabel="answers 1..*"]
+2270440182048 -> 2270440177168[arrowtail=diamond, dir=both, headlabel="answers 1..*"]
+2270440174240 -> 2270440191808[arrowtail=diamond, dir=both, headlabel="scale "]
+2270440191808 -> 2270440196688 [dir=back]
+2270440191808 -> 2270440175216 [dir=back]
+2270440175216 -> 2270440187904[arrowtail=diamond, dir=both, headlabel="scale_options 1..*"]
+2270440200592 -> 2270440222064[arrowtail=diamond, dir=both, headlabel="completion_time "]
+2270440222064 -> 2270440210352[arrowtail=diamond, dir=both, headlabel="hours "]
+2270440222064 -> 2270440228896[arrowtail=diamond, dir=both, headlabel="minutes "]
+2270440222064 -> 2270440203520[arrowtail=diamond, dir=both, headlabel="seconds "]
 match_rules [ shape=plaintext, label=< <table>
 	<tr>
 		<td><b>MyInt</b></td><td>[0-9]+</td>

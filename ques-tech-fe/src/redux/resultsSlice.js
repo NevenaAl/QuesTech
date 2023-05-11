@@ -13,6 +13,7 @@ export const resultsSlice = createSlice({
     score: 0,
     passCriteria: 0,
     passCriteriaUnit: "",
+    surveyScoring: [],
     points: 0,
     fullName: "",
     age: 0,
@@ -77,10 +78,13 @@ export const resultsSlice = createSlice({
         state.passCriteriaUnit = PASS_CRITERIA_UNIT.POINTS;
       } else {
         state.passCriteria = assessmentDetails.num_of_correct_answers_required;
-        state.passCriteriaUnit = PASS_CRITERIA_UNIT.NUM_OF_QUESTIONS;
+        state.passCriteriaUnit = PASS_CRITERIA_UNIT.NUM_OF_CORRECT_ANSWERS;
       }
     },
-    calculateResults: (state, { payload }) => {
+    setSurveyScoring: (state, { payload }) => {
+      state.surveyScoring = payload;
+    },
+    calculateQuizResults: (state, { payload }) => {
       const numOfCorrectAnswers = calculateNumOfCorrectAnswers(
         state.answers,
         state.correctAnswers
@@ -94,13 +98,26 @@ export const resultsSlice = createSlice({
           payload.questions
         );
       } else if (
-        state.passCriteriaUnit === PASS_CRITERIA_UNIT.NUM_OF_QUESTIONS
+        state.passCriteriaUnit === PASS_CRITERIA_UNIT.NUM_OF_CORRECT_ANSWERS
       ) {
         state.score = numOfCorrectAnswers;
       }
       if (state.score >= state.passCriteria) {
         state.hasPassed = true;
       }
+    },
+    calculateScoredSurveyResults: (state, { payload }) => {
+      let score = 0;
+      payload.questions.forEach((question, index) => {
+        question.answers.forEach((answer) => {
+          if (answer.text === state.answers[index]) {
+            score += answer.points;
+            return;
+          }
+        });
+      });
+
+      state.score = score;
     },
   },
 });
@@ -110,7 +127,9 @@ export const {
   setMultipleChoiceAnwser,
   setCorrectAnswers,
   setPassCriteria,
-  calculateResults,
+  setSurveyScoring,
+  calculateQuizResults,
+  calculateScoredSurveyResults,
 } = resultsSlice.actions;
 
 export default resultsSlice.reducer;

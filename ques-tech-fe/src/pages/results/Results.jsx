@@ -2,6 +2,9 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import styles from "./Results.module.css";
+import QuizResults from "../../components/quiz-results/QuizResults";
+import { getScoredSurveyResult } from "../../utils/assessmentUtil";
 
 const Results = () => {
   const navigate = useNavigate();
@@ -17,19 +20,26 @@ const Results = () => {
   }, [assessmentData]);
 
   return assessmentData ? (
-    <Box>
+    <Box className={styles.results_wrapper}>
       {assessmentData.type === "quiz" ? (
-        <>
-          {results.hasPassed ? (
-            <Typography>Congratulations! You passed the quiz!</Typography>
-          ) : (
-            <Typography>Sorry, you did not pass the quiz.</Typography>
-          )}
-          <Typography>Your score is {results.score}</Typography>
-        </>
+        <QuizResults
+          passCriteria={results.passCriteria}
+          passCriteriaUnit={results.passCriteriaUnit}
+          hasPassed={results.hasPassed}
+          score={results.score}
+        />
       ) : (
         <Typography>
-          Thank you for taking this {assessmentData.type}.
+          Thank you for taking this {assessmentData.type.replace("_", " ")}!
+        </Typography>
+      )}
+      {assessmentData.type === "scored_survey" && (
+        <Typography>
+          Your survey result is:{" "}
+          {getScoredSurveyResult(
+            assessmentData.assessment_details.scoring,
+            results.score
+          )}
         </Typography>
       )}
     </Box>

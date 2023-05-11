@@ -5,7 +5,7 @@ import MobileStepper from "@mui/material/MobileStepper";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Question from "../question/Question";
 import styles from "./Quiz.module.css";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ import {
   validateRequiredQuestions,
 } from "../../utils/assessmentUtil";
 import { useDispatch, useSelector } from "react-redux";
-import { calculateResults } from "../../redux/resultsSlice";
+import { calculateQuizResults } from "../../redux/resultsSlice";
 
 const Quiz = ({
   title,
@@ -90,7 +90,7 @@ const Quiz = ({
   };
 
   const handleFinish = () => {
-    dispatch(calculateResults({ questions }));
+    dispatch(calculateQuizResults({ questions }));
     navigate("/assessment-results");
   };
 
@@ -126,6 +126,21 @@ const Quiz = ({
             <Typography textAlign={"center"} marginTop={"30px"}>
               * You will have <b>{formattedTime}</b> to finish this quiz. *
             </Typography>
+          )}
+          {results.passCriteria && (
+            <>
+              <Typography textAlign={"center"} marginTop={"30px"}>
+                Required score for passing this quiz is{" "}
+                <b>
+                  {" "}
+                  {results.passCriteria} {results.passCriteriaUnit}
+                </b>
+                .
+              </Typography>
+              <Typography textAlign={"center"} fontSize={12}>
+                *each question can have different number of points
+              </Typography>
+            </>
           )}
           {askForPersonalInfo &&
             personalInfoQuestions.map((question, index) => (

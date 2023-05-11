@@ -117,3 +117,9 @@ const getPartialPoints = (answers, correctAnswers, points) => {
   }
   return score;
 };
+
+export const getScoredSurveyResult = (surveyScoring, score) => {
+  return surveyScoring.find(
+    (scoring) => score >= scoring.start && score < scoring.end
+  ).result;
+};

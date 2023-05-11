@@ -1,3 +1,6 @@
+import itertools
+
+
 class OpinionScale(object):
     def __init__(self):
         self.scale_start = None
@@ -70,14 +73,15 @@ def convert_answers(question_details):
     if hasattr(question_details, "answers"):
         return list(map(get_answer_object, question_details.answers))
     elif hasattr(question_details, "correct_answer") and question_details.correct_answer is not None:
-        # TODO float je 0.0 i kad se ne navede
         return list(map(get_answer_object, [question_details.correct_answer]))
     return []
 
 
-def get_question_object(question):
+def get_question_object(question, default_positive_points=None, default_negative_points=None):
     temp = Question(question.question_details.type, question.text)
     temp.answers = convert_answers(question.question_details)
+    temp.positive_points = default_positive_points
+    temp.negative_points = default_negative_points
     if hasattr(question, "required"):
         temp.required = question.required
     if hasattr(question.question_details, "subtype"):
@@ -89,11 +93,6 @@ def get_question_object(question):
     if hasattr(question.question_details, "scale") and question.question_details.scale:
         temp.scale = get_scale_object(question.question_details.scale)
     if hasattr(question, "question_points") and question.question_points:
-        # TODO ovde upisati default poene ako nema svoje, ne slati ih na fe
-
-        # temp.default_points_per_question = assessment_details.default_points_per_question
-        # temp.default_negative_points_per_question = assessment_details.default_negative_points_per_question
-
         temp.positive_points = question.question_points.positive
         temp.negative_points = question.question_points.negative
     return temp
@@ -115,7 +114,10 @@ def get_scale_object(scale):
 
 def convert_questions(asseessment_details):
     if (hasattr(asseessment_details, "questions")):
-        return list(map(get_question_object, asseessment_details.questions))
+        if asseessment_details.type == "quiz":
+            return list(map(lambda q: get_question_object(q, asseessment_details.default_points_per_question, asseessment_details.default_negative_points_per_question), asseessment_details.questions))
+        else:
+            return list(map(get_question_object, asseessment_details.questions))
     elif (hasattr(asseessment_details, "question")):
         return list(map(get_question_object, [asseessment_details.question]))
     return []

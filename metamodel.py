@@ -18,11 +18,6 @@ def get_assessment_mm(this_folder):
     metamodel = metamodel_from_file(
         join(this_folder, 'grammar.tx'))
 
-    # metamodel = metamodel_from_file(
-    #     join(this_folder, 'grammar.tx'), classes=[Assessment])
-    # TODO da li ovde vratiti classes i onda validaciju odraditi unutar njih u pomocnim metodama
-    # ili ovde ostaviti validaciju, bez klasa, pa prepakovati u dto posle kreiranja mm
-
     metamodel.register_obj_processors(object_processors)
 
     return metamodel
@@ -94,7 +89,6 @@ def survey_question_validator(survey_question):
         answer_points_validator(survey_question)
         no_correct_answers_validator(survey_question)
     elif hasattr(survey_question.question_details, "correct_answer") and survey_question.question_details.correct_answer:
-        # TODO float je 0.0 i kad se ne navede. ako napisem in not None, ulazice u gresku cak iako ga nema u modelu navedenog.
         raise TextXSemanticError(
             "There is no correct answer in a survey/poll.")
 
@@ -135,13 +129,11 @@ def correct_answers_validator(question):
             raise TextXSemanticError(
                 "There must be exactly one correct answer in a single choice question.")
     elif question.question_details.type == "multiple_choice":
-        # TODO ako ima accept partial answer to pitanje mora imati poene ili quiz defaultne poene
         if sum(1 for answer in question.question_details.answers if answer.is_correct) < 1:
             raise TextXSemanticError(
                 "There must be at least one correct answer in a multiple choice question.")
     elif question.question_details.type == "number" or question.question_details.type == "true_false":
         if not hasattr(question.question_details, "correct_answer") or question.question_details.correct_answer is None:
-            # TODO prolazice(nece uci ovde u error) ako ne stavimo correct_answer u number pitanju jer je onda po def 0.0
             raise TextXSemanticError(
                 "There must be a correct answer in a quiz question.")
 
