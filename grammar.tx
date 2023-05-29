@@ -24,9 +24,9 @@ Survey:
 ;
 
 ScoredSurvey:
-    ('type' ':' type='scored_survey'
+    'type' ':' type='scored_survey'
     'questions' ':' questions+=ScoredSurveyQuestion[/\s*/] 
-    'scoring' ':' scoring+=SurveyScoring[/\s*/])#
+    'scoring' ':' scoring+=SurveyScoring[/\s*/]
 ;
 
 Poll:

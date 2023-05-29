@@ -47,7 +47,7 @@ def generate_model(assessment_file: str):
 
 
 @app.get("/assessment", response_model=None)
-def hello(assessment_file: str):
+def get_assessment(assessment_file: str):
     assessment = generate_model(assessment_file)
     if assessment is None:
         return

@@ -45,7 +45,7 @@ class SurveyScoring(object):
 
 
 class AssessmentDetails(object):
-    def __init__(self, ):
+    def __init__(self):
         self.completion_time = None
         self.can_skip_to_end = None
         self.percentage_required = None
@@ -94,7 +94,8 @@ def get_question_object(question, default_positive_points=None, default_negative
         temp.scale = get_scale_object(question.question_details.scale)
     if hasattr(question, "question_points") and question.question_points:
         temp.positive_points = question.question_points.positive
-        temp.negative_points = question.question_points.negative
+        if question.question_points.negative:
+            temp.negative_points = question.question_points.negative
     return temp
 
 

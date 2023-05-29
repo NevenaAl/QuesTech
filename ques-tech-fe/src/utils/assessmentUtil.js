@@ -63,23 +63,25 @@ export const calculateNumOfCorrectAnswers = (answers, correctAnswers) => {
 export const calculatePoints = (answers, correctAnswers, questions) => {
   let points = 0;
   answers.forEach((answer, index) => {
-    if (
-      answer === correctAnswers[index] ||
-      compareAnswers(answer, correctAnswers[index]) ||
-      parseFloat(answer) ===
-        parseFloat(
-          typeof correctAnswers[index] === "string" && correctAnswers[index]
-        )
-    ) {
-      points += questions[index].positive_points;
-    } else if (questions[index].accept_partial_answer) {
-      points += getPartialPoints(
-        answer,
-        correctAnswers[index],
-        questions[index].positive_points
-      );
-    } else {
-      points -= questions[index].negative_points;
+    if (correctAnswers[index]) {
+      if (
+        answer === correctAnswers[index] ||
+        compareAnswers(answer, correctAnswers[index]) ||
+        parseFloat(answer) ===
+          parseFloat(
+            typeof correctAnswers[index] === "string" && correctAnswers[index]
+          )
+      ) {
+        points += questions[index].positive_points;
+      } else if (questions[index].accept_partial_answer) {
+        points += getPartialPoints(
+          answer,
+          correctAnswers[index],
+          questions[index].positive_points
+        );
+      } else {
+        points -= questions[index].negative_points;
+      }
     }
   });
   console.log(points);
